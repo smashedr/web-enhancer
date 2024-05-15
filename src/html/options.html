@@ -46,6 +46,15 @@
     <hr>
     <form id="options-form" class="options">
         <div class="form-check form-switch">
+            <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
+            <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
+                Automatically Focus Inputs
+                <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
+        <div class="form-check form-switch">
             <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
             <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
                 Copy Hover Links on Ctrl+C

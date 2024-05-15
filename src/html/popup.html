@@ -22,13 +22,17 @@
                 More Information on Permissions</a></p>
             <hr class="my-1">
         </div>
-        <a class="btn btn-primary" role="button" href="../html/home.html">
-            <i class="fa-solid fa-house-chimney me-1"></i> Open Home Page</a>
-        <a class="btn btn-primary" role="button" href="../html/panel.html">
-            <i class="fa-regular fa-window-maximize me-1"></i> Show Extension Panel</a>
     </div>
-    <hr>
     <form id="options-form" class="mb-3">
+        <div class="form-check form-switch">
+            <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
+            <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
+                Automatically Focus Inputs
+                <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
         <div class="form-check form-switch">
             <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
             <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
@@ -38,6 +42,16 @@
                 </span>
             </label>
         </div>
+
+        <div class="d-grid g-2 gap-2 my-2">
+            <a class="btn btn-outline-info w-100" role="button" href="../html/options.html">
+                <i class="fa-solid fa-sliders me-1"></i> Open Options</a>
+            <a class="btn btn-outline-primary" role="button" href="../html/home.html">
+                <i class="fa-solid fa-house-chimney me-1"></i> Open Home Page</a>
+<!--            <a class="btn btn-primary" role="button" href="../html/panel.html">-->
+<!--                <i class="fa-regular fa-window-maximize me-1"></i> Show Extension Panel</a>-->
+        </div>
+
         <div class="form-check form-switch">
             <input class="form-check-input" id="contextMenu" type="checkbox" role="switch">
             <label class="form-check-label" for="contextMenu" aria-describedby="contextMenuHelp">
@@ -57,8 +71,7 @@
             </label>
         </div>
     </form>
-    <a class="btn btn-outline-info w-100" role="button" href="../html/options.html">
-        <i class="fa-solid fa-sliders me-1"></i> Open Options</a>
+
     <hr>
     <div class="d-flex justify-content-center align-items-center text-center small">
         <img src="../images/logo16.png" width="16" height="16" alt="Web Enhancer" title="Web Enhancer">

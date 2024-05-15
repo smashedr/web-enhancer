@@ -1,6 +1,6 @@
 // JS Content Script
 
-console.info('RUNNING content-script.js')
+console.info('Web Enhancer - RUNNING content-script.js')
 
 document.addEventListener('DOMContentLoaded', domContentLoaded)
 
@@ -13,6 +13,22 @@ async function domContentLoaded() {
     console.log('domContentLoaded')
     const { options } = await chrome.storage.sync.get(['options'])
     console.debug('options:', options)
+    if (options.autoFocus) {
+        console.debug('enable: autoFocus')
+        const inputs = document.querySelectorAll(
+            'input[type="text"]:not([type=hidden])'
+        )
+        let input
+        for (const el of inputs) {
+            // console.debug('el:', el)
+            if (el.offsetParent) {
+                input = el
+                break
+            }
+        }
+        console.debug('input:', input)
+        input?.focus()
+    }
     if (options.hoverCopy) {
         console.debug('enable: hoverCopy')
         document.addEventListener('keydown', keyboardEvent)

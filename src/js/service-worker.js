@@ -40,6 +40,7 @@ async function onInstalled(details) {
     const githubURL = 'https://github.com/cssnr/web-enhancer'
     const options = await Promise.resolve(
         setDefaultOptions({
+            autoFocus: true,
             hoverCopy: true,
             contextMenu: true,
             showUpdate: false,
