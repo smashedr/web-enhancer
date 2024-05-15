@@ -14,6 +14,7 @@ async function domContentLoaded() {
     const { options } = await chrome.storage.sync.get(['options'])
     console.debug('options:', options)
     if (options.hoverCopy) {
+        console.debug('enable: hoverCopy')
         document.addEventListener('keydown', keyboardEvent)
     }
 }

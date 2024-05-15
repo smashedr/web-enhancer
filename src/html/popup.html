@@ -30,6 +30,15 @@
     <hr>
     <form id="options-form" class="mb-3">
         <div class="form-check form-switch">
+            <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
+            <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
+                Copy Hover Links on Ctrl+C
+                <span data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Ctrl+C.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
+        <div class="form-check form-switch">
             <input class="form-check-input" id="contextMenu" type="checkbox" role="switch">
             <label class="form-check-label" for="contextMenu" aria-describedby="contextMenuHelp">
                 Enable Right Click Menu
