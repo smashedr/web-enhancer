@@ -61,7 +61,7 @@ export async function revokePerms(event) {
 
 /**
  * Permissions On Added Callback
- * @param permissions
+ * @param {chrome.permissions} permissions
  */
 export async function onAdded(permissions) {
     console.debug('onAdded', permissions)
@@ -70,7 +70,7 @@ export async function onAdded(permissions) {
 
 /**
  * Permissions On Removed Callback
- * @param permissions
+ * @param {chrome.permissions} permissions
  */
 export async function onRemoved(permissions) {
     console.debug('onRemoved', permissions)
@@ -108,7 +108,7 @@ export async function saveOptions(event) {
         console.info(`Set: ${key}:`, value)
         await chrome.storage.sync.set({ options })
     } else {
-        console.warn('No Value for key:', key)
+        console.warn('No value for key:', key)
     }
 }
 

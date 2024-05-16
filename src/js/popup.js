@@ -23,6 +23,8 @@ document
     .querySelectorAll('[data-bs-toggle="tooltip"]')
     .forEach((el) => new bootstrap.Tooltip(el))
 
+const hostDiv = document.getElementById('host-div')
+
 /**
  * Initialize Popup
  * @function initPopup
@@ -43,6 +45,15 @@ async function initPopup() {
         showToast(chrome.runtime.lastError.message, 'warning')
     }
 
+    const [tab, url] = await checkTab()
+    console.debug('tab, url:', tab, url)
+    if (!tab || !url) {
+        hostDiv.classList.add('border-danger')
+        return
+    }
+    hostDiv.querySelector('kbd').textContent = url.hostname
+    hostDiv.classList.add('border-success')
+
     // const platformInfo = await chrome.runtime.getPlatformInfo()
     // console.log('platformInfo:', platformInfo)
 
@@ -56,22 +67,31 @@ async function initPopup() {
 }
 
 /**
- * Grant Permissions Button Click Callback
- * @function injectScript
- * @param {MouseEvent} event
+ * Check Tab Scripting
+ * @function checkTab
+ * @return {Boolean}
  */
-async function injectScript(event) {
-    console.debug('injectScript:', event)
-    const [tab] = await chrome.tabs.query({ currentWindow: true, active: true })
+async function checkTab() {
     try {
+        const [tab] = await chrome.tabs.query({
+            currentWindow: true,
+            active: true,
+        })
+        const url = new URL(tab.url)
+        if (!tab?.id || !url.hostname) {
+            return [false, false]
+        }
         await chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            files: ['/js/inject.js'],
+            injectImmediately: true,
+            func: function () {
+                return true
+            },
         })
-        window.close()
+        return [tab, url]
     } catch (e) {
-        showToast(e.toString(), 'danger')
-        console.info(e)
+        console.log(e)
+        return [false, false]
     }
 }
 
