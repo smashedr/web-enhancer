@@ -53,39 +53,52 @@ async function onChanged(changes, namespace) {
 async function keyboardEvent(e) {
     // console.log('handleKeyboard:', e)
     const tagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'OPTION']
-    if (
-        e.altKey ||
-        e.metaKey ||
-        e.shiftKey ||
-        e.repeat ||
-        tagNames.includes(e.target.tagName)
-    ) {
+    if (e.repeat || tagNames.includes(e.target.tagName)) {
         return
     }
     if (e.code === 'KeyC' && e.ctrlKey) {
-        // console.debug('Ctrl+C')
-        await copyHoverLink()
+        console.debug('Ctrl+C')
+        await copyHoverLink('href')
+    }
+    if (e.code === 'KeyC' && e.shiftKey) {
+        console.debug('Shift+C')
+        await copyHoverLink('text')
     }
 }
 
-async function copyHoverLink() {
+async function copyHoverLink(type = 'href') {
     const selection = window.getSelection()
     // console.log('selection:', selection)
     if (selection.type === 'Range') {
-        console.debug('return on selection')
-        return
+        return console.debug('return on selection')
     }
     const hover = document.querySelector('a:hover')
     // console.debug('hover:', hover)
-    if (!hover?.href) {
-        console.debug('no hover link href found')
-        return
+    if (!hover) {
+        return console.debug('no hover element')
     }
-    console.debug('hover.href:', hover.href)
-    await navigator.clipboard.writeText(hover.href)
-    const border = hover.style.border
-    hover.style.border = '1px solid lightgreen'
+    if (type === 'href') {
+        if (!hover?.href) {
+            return console.debug('no hover href')
+        }
+        console.debug('hover.href:', hover.href)
+        await navigator.clipboard.writeText(hover.href)
+    } else if (type === 'text') {
+        console.log('text')
+        let text =
+            hover.textContent?.trim() ||
+            hover.innerText?.trim() ||
+            hover.title?.trim() ||
+            hover.firstElementChild?.alt?.trim() ||
+            hover.ariaLabel?.trim()
+        console.log('text:', text)
+        if (!text?.length) {
+            return console.debug('no hover text')
+        }
+        navigator.clipboard.writeText(text).then()
+    }
+    hover.style.backgroundColor = 'rgba(0,255,21,0.5)'
     setTimeout(() => {
-        hover.style.border = border
+        hover.style.backgroundColor = ''
     }, 1000)
 }
