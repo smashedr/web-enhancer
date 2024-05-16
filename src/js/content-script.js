@@ -97,8 +97,10 @@ async function copyHoverLink(type = 'href') {
         }
         navigator.clipboard.writeText(text).then()
     }
-    hover.style.backgroundColor = 'rgba(0,255,21,0.5)'
+    hover.style.backgroundColor = 'rgba(0,255,0,0.1)'
+    hover.style.outline = '#00c800 solid 2px'
     setTimeout(() => {
         hover.style.backgroundColor = ''
+        hover.style.outline = ''
     }, 1000)
 }
