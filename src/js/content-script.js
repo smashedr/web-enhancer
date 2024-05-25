@@ -15,12 +15,13 @@ async function domContentLoaded() {
     console.debug('options:', options)
     if (options.autoFocus) {
         console.debug('enable: autoFocus')
-        const inputs = document.querySelectorAll(
-            'input[type="text"]:not([type=hidden])'
-        )
+        if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+            return console.log('input already active')
+        }
+        const inputs = document.querySelectorAll('input, textarea')
         let input
         for (const el of inputs) {
-            // console.debug('el:', el)
+            console.debug('el:', el.checkVisibility())
             if (el.offsetParent) {
                 input = el
                 break
