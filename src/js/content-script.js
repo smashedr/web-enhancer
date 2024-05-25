@@ -21,7 +21,7 @@ async function domContentLoaded() {
         const inputs = document.querySelectorAll('input, textarea')
         let input
         for (const el of inputs) {
-            console.debug('el:', el.checkVisibility())
+            // console.debug('el:', el.checkVisibility())
             if (el.offsetParent) {
                 input = el
                 break
