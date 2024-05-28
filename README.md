@@ -60,7 +60,7 @@ First, clone (or download) this repository and change into the directory.
 
 Second, install the dependencies:
 ```shell
-npm isntall
+npm install
 ```
 
 Finally, to run Chrome or Firefox with web-ext, run one of the following:
