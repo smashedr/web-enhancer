@@ -9,26 +9,15 @@ if (!chrome.storage.onChanged.hasListener(onChanged)) {
     chrome.storage.onChanged.addListener(onChanged)
 }
 
+let options
+
 async function domContentLoaded() {
     console.log('domContentLoaded')
-    const { options } = await chrome.storage.sync.get(['options'])
+    const data = await chrome.storage.sync.get(['options'])
+    options = data.options
     console.debug('options:', options)
     if (options.autoFocus) {
-        console.debug('enable: autoFocus')
-        if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-            return console.log('input already active')
-        }
-        const inputs = document.querySelectorAll('input, textarea')
-        let input
-        for (const el of inputs) {
-            // console.debug('el:', el.checkVisibility())
-            if (el.offsetParent) {
-                input = el
-                break
-            }
-        }
-        console.debug('input:', input)
-        input?.focus()
+        autoFocus()
     }
     if (options.hoverCopy) {
         console.debug('enable: hoverCopy')
@@ -45,8 +34,9 @@ async function domContentLoaded() {
 async function onChanged(changes, namespace) {
     console.debug('onChanged:', changes, namespace)
     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        if (namespace === 'sync' && key === 'options') {
-            console.debug('sync.options', oldValue, newValue)
+        if (namespace === 'sync' && key === 'options' && newValue) {
+            console.debug('options', oldValue, newValue)
+            options = newValue
         }
     }
 }
@@ -57,14 +47,36 @@ async function keyboardEvent(e) {
     if (e.repeat || tagNames.includes(e.target.tagName)) {
         return
     }
-    if (e.code === 'KeyC' && e.ctrlKey) {
-        console.debug('Ctrl+C')
-        await copyHoverLink('href')
+    if (options.hoverCopy) {
+        if (e.code === 'KeyC' && e.ctrlKey) {
+            console.debug('Ctrl+C')
+            await copyHoverLink('href')
+        }
+        if (e.code === 'KeyC' && e.shiftKey) {
+            console.debug('Shift+C')
+            await copyHoverLink('text')
+        }
     }
-    if (e.code === 'KeyC' && e.shiftKey) {
-        console.debug('Shift+C')
-        await copyHoverLink('text')
+}
+
+// Functions
+
+function autoFocus() {
+    // console.debug('autoFocus')
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        return console.debug('input already active')
     }
+    const inputs = document.querySelectorAll('input, textarea')
+    let input
+    for (const el of inputs) {
+        // console.debug('el:', el.checkVisibility())
+        if (el.offsetParent) {
+            input = el
+            break
+        }
+    }
+    console.debug('input:', input)
+    input?.focus()
 }
 
 async function copyHoverLink(type = 'href') {
@@ -82,21 +94,20 @@ async function copyHoverLink(type = 'href') {
         if (!hover?.href) {
             return console.debug('no hover href')
         }
-        console.debug('hover.href:', hover.href)
+        console.log('hover.href:', hover.href)
         await navigator.clipboard.writeText(hover.href)
     } else if (type === 'text') {
-        console.log('text')
-        let text =
+        const text =
             hover.textContent?.trim() ||
             hover.innerText?.trim() ||
             hover.title?.trim() ||
             hover.firstElementChild?.alt?.trim() ||
             hover.ariaLabel?.trim()
-        console.log('text:', text)
         if (!text?.length) {
             return console.debug('no hover text')
         }
-        navigator.clipboard.writeText(text).then()
+        console.log('text:', text)
+        await navigator.clipboard.writeText(text)
     }
     hover.style.backgroundColor = 'rgba(0,255,0,0.1)'
     hover.style.outline = '#00c800 solid 2px'

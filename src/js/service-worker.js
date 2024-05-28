@@ -162,9 +162,10 @@ function createContextMenus() {
     chrome.contextMenus.removeAll()
     const contexts = [
         [['link'], 'copyText', 'normal', 'Copy Link Text'],
-        [['link', 'image', 'audio', 'video'], 's-1', 'separator', 'separator'],
-        [['all'], 'openHome', 'normal', 'Home Page'],
-        [['all'], 'showPanel', 'normal', 'Extension Panel'],
+        [['link'], 's-1', 'separator', 'separator'],
+        // [['link', 'image', 'audio', 'video'], 's-1', 'separator', 'separator'],
+        // [['all'], 'openHome', 'normal', 'Home Page'],
+        // [['all'], 'showPanel', 'normal', 'Extension Panel'],
         [['all'], 's-2', 'separator', 'separator'],
         [['all'], 'openOptions', 'normal', 'Open Options'],
     ]
