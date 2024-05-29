@@ -4,13 +4,14 @@ console.info('Web Enhancer - RUNNING content-script.js')
 
 document.addEventListener('DOMContentLoaded', domContentLoaded)
 document.addEventListener('keydown', keyboardEvent)
+document.addEventListener('click', mouseEvent)
 
 if (!chrome.storage.onChanged.hasListener(onChanged)) {
     console.debug('Adding storage.onChanged Listener')
     chrome.storage.onChanged.addListener(onChanged)
 }
 
-let options
+let options = {}
 
 async function domContentLoaded() {
     console.log('domContentLoaded')
@@ -56,6 +57,22 @@ async function keyboardEvent(e) {
         if (e.code === 'KeyC' && e.shiftKey) {
             console.debug('Shift+C')
             await copyHoverLink('text')
+        }
+    }
+}
+
+async function mouseEvent(e) {
+    // console.log('mouseEvent:', e)
+    if (options.showPassword) {
+        if (e.shiftKey && e.ctrlKey && e.target.tagName === 'INPUT') {
+            if (e.target.type === 'password') {
+                e.target.type = 'text'
+                e.target.dataset.hidePassword = 'yes'
+            } else if (e.target.dataset.hidePassword === 'yes') {
+                e.target.type = 'password'
+            } else {
+                console.debug('INPUT not Password Element')
+            }
         }
     }
 }
