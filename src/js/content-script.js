@@ -3,13 +3,14 @@
 console.info('Web Enhancer - RUNNING content-script.js')
 
 document.addEventListener('DOMContentLoaded', domContentLoaded)
-
-let options
+document.addEventListener('keydown', keyboardEvent)
 
 if (!chrome.storage.onChanged.hasListener(onChanged)) {
     console.debug('Adding storage.onChanged Listener')
     chrome.storage.onChanged.addListener(onChanged)
 }
+
+let options
 
 async function domContentLoaded() {
     console.log('domContentLoaded')
@@ -19,10 +20,10 @@ async function domContentLoaded() {
     if (options.autoFocus) {
         autoFocus()
     }
-    if (options.hoverCopy) {
-        console.debug('enable: hoverCopy')
-        document.addEventListener('keydown', keyboardEvent)
-    }
+    // if (options.hoverCopy) {
+    //     console.debug('enable: hoverCopy')
+    //     document.addEventListener('keydown', keyboardEvent)
+    // }
 }
 
 /**
