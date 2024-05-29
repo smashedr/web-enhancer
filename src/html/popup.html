@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<div class="container-fluid p-3">
+<div class="container-fluid p-2">
     <div class="d-grid g-2 gap-2">
         <div class="d-none grant-perms">
             <a id="grant-perms" class="btn btn-lg btn-success w-100 mb-1" role="button">
@@ -23,15 +23,29 @@
             <hr>
         </div>
     </div>
+
     <div id="host-div" class="small pt-1 pb-2 text-center border border-2 rounded mb-2" style="overflow: hidden;">
         <kbd>Invalid Site</kbd>
     </div>
-    <form id="options-form" class="mb-3">
+
+    <form id="options-form" class="small">
         <div class="form-check form-switch">
             <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
             <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
-                Automatically Focus Inputs
+                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
+                    <i class="fa-solid fa-flask"></i>
+                </span>
+                Automatically Focus Input on Load
                 <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" id="showPassword" type="checkbox" role="switch">
+            <label class="form-check-label" for="showPassword" aria-describedby="showPasswordHelp">
+                Show/Hide Password on Right Click
+                <span data-bs-toggle="tooltip" data-bs-title="Right Click Password Inputs to Show/Hide the Password.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>
@@ -39,14 +53,14 @@
         <div class="form-check form-switch">
             <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
             <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
-                Copy Hover Links on Shift/Ctrl+C
+                Copy Hover Text/Links on Shift/Ctrl+C
                 <span data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift/Ctrl+C.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>
         </div>
 
-        <hr>
+        <hr class="my-1">
 
         <div class="form-check form-switch">
             <input class="form-check-input" id="contextMenu" type="checkbox" role="switch">
@@ -68,18 +82,17 @@
         </div>
     </form>
 
-    <hr>
-
     <div class="d-grid g-2 gap-2 my-2">
         <a class="btn btn-outline-info w-100" role="button" href="../html/options.html">
-            <i class="fa-solid fa-sliders me-1"></i> Open Options</a>
+            <i class="fa-solid fa-sliders me-1"></i> More Options</a>
 <!--        <a class="btn btn-outline-primary" role="button" href="../html/home.html">-->
 <!--            <i class="fa-solid fa-house-chimney me-1"></i> Open Home Page</a>-->
 <!--        <a class="btn btn-primary" role="button" href="../html/panel.html">-->
 <!--            <i class="fa-regular fa-window-maximize me-1"></i> Show Extension Panel</a>-->
     </div>
 
-    <hr>
+    <hr class="my-2">
+
     <div class="d-flex justify-content-center align-items-center text-center small">
         <img src="../images/logo16.png" width="16" height="16" alt="Web Enhancer" title="Web Enhancer">
         <a class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover mx-2" type="button" rel="noopener"

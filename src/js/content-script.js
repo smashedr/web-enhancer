@@ -4,12 +4,12 @@ console.info('Web Enhancer - RUNNING content-script.js')
 
 document.addEventListener('DOMContentLoaded', domContentLoaded)
 
+let options
+
 if (!chrome.storage.onChanged.hasListener(onChanged)) {
     console.debug('Adding storage.onChanged Listener')
     chrome.storage.onChanged.addListener(onChanged)
 }
-
-let options
 
 async function domContentLoaded() {
     console.log('domContentLoaded')

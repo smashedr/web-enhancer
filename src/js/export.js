@@ -243,7 +243,7 @@ export function showToast(message, type = 'success') {
  * Inject Function into Current Tab with args
  * @function injectFunction
  * @param {Function} func
- * @param {Array} args
+ * @param {Array} [args]
  */
 export async function injectFunction(func, args) {
     const [tab] = await chrome.tabs.query({ currentWindow: true, active: true })
@@ -273,5 +273,26 @@ export function copyActiveElementText(ctx) {
         navigator.clipboard.writeText(text).then()
     } else {
         console.info('No Text to Copy.')
+    }
+}
+
+/**
+ * Show/Hide Password Input
+ * @function showHidePassword
+ */
+export function showHidePassword() {
+    console.debug('showHidePassword')
+    console.log('document.activeElement:', document.activeElement)
+    if (document.activeElement?.tagName === 'INPUT') {
+        if (document.activeElement.type === 'password') {
+            document.activeElement.type = 'text'
+            document.activeElement.dataset.hidePassword = 'yes'
+        } else if (document.activeElement.dataset.hidePassword === 'yes') {
+            document.activeElement.type = 'password'
+        } else {
+            console.debug('INPUT not Password Element')
+        }
+    } else {
+        console.info('activeElement Not Found or Not INPUT.')
     }
 }

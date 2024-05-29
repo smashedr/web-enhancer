@@ -5,6 +5,7 @@ import {
     checkPerms,
     copyActiveElementText,
     injectFunction,
+    showHidePassword,
 } from './export.js'
 
 chrome.runtime.onStartup.addListener(onStartup)
@@ -40,8 +41,9 @@ async function onInstalled(details) {
     const githubURL = 'https://github.com/cssnr/web-enhancer'
     const options = await Promise.resolve(
         setDefaultOptions({
-            autoFocus: true,
+            showPassword: true,
             hoverCopy: true,
+            autoFocus: false,
             contextMenu: true,
             showUpdate: false,
         })
@@ -93,6 +95,9 @@ async function onClicked(ctx, tab) {
     } else if (ctx.menuItemId === 'copyText') {
         console.debug('injectFunction: copy')
         await injectFunction(copyActiveElementText, [ctx])
+    } else if (ctx.menuItemId === 'showPassword') {
+        console.debug('showPassword')
+        await injectFunction(showHidePassword)
     } else {
         console.error(`Unknown ctx.menuItemId: ${ctx.menuItemId}`)
     }
@@ -161,6 +166,7 @@ function createContextMenus() {
     console.debug('createContextMenus')
     chrome.contextMenus.removeAll()
     const contexts = [
+        [['editable'], 'showPassword', 'normal', 'Show/Hide Password'],
         [['link'], 'copyText', 'normal', 'Copy Link Text'],
         [['link'], 's-1', 'separator', 'separator'],
         // [['link', 'image', 'audio', 'video'], 's-1', 'separator', 'separator'],
