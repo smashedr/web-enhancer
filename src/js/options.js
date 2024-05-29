@@ -2,12 +2,13 @@
 
 import {
     checkPerms,
+    grantPerms,
     linkClick,
     onAdded,
     onRemoved,
-    requestPerms,
     revokePerms,
     saveOptions,
+    updateManifest,
     updateOptions,
 } from './export.js'
 
@@ -16,9 +17,12 @@ chrome.permissions.onAdded.addListener(onAdded)
 chrome.permissions.onRemoved.addListener(onRemoved)
 
 document.addEventListener('DOMContentLoaded', initOptions)
-document.getElementById('grant-perms').addEventListener('click', grantPerms)
-document.getElementById('revoke-perms').addEventListener('click', revokePerms)
-
+document
+    .querySelectorAll('.revoke-permissions')
+    .forEach((el) => el.addEventListener('click', revokePerms))
+document
+    .querySelectorAll('.grant-permissions')
+    .forEach((el) => el.addEventListener('click', grantPerms))
 document
     .querySelectorAll('a[href]')
     .forEach((el) => el.addEventListener('click', linkClick))
@@ -38,20 +42,14 @@ document
  */
 async function initOptions() {
     console.debug('initOptions')
-    const manifest = chrome.runtime.getManifest()
-    document.querySelector('.version').textContent = manifest.version
-    document.querySelector('[href="homepage_url"]').href = manifest.homepage_url
 
-    await setShortcuts({
-        mainKey: '_execute_action',
-        openHome: 'openHome',
-        showPanel: 'showPanel',
-    })
+    updateManifest()
+    await setShortcuts()
+    await checkPerms()
 
     const { options } = await chrome.storage.sync.get(['options'])
     console.debug('options:', options)
     updateOptions(options)
-    await checkPerms()
 }
 
 /**
@@ -74,29 +72,23 @@ function onChanged(changes, namespace) {
 /**
  * Set Keyboard Shortcuts
  * @function setShortcuts
- * @param {Object} mapping { elementID: name }
+ * @param {String} selector
  */
-async function setShortcuts(mapping) {
+async function setShortcuts(selector = '#keyboard-shortcuts') {
+    const table = document.querySelector(selector)
+    const tbody = table.querySelector('tbody')
+    const source = table.querySelector('tfoot > tr').cloneNode(true)
     const commands = await chrome.commands.getAll()
-    for (const [elementID, name] of Object.entries(mapping)) {
-        // console.debug(`${elementID}: ${name}`)
-        const command = commands.find((x) => x.name === name)
-        if (command?.shortcut) {
-            console.debug(`${elementID}: ${command.shortcut}`)
-            const el = document.getElementById(elementID)
-            if (el) {
-                el.textContent = command.shortcut
-            }
+    for (const command of commands) {
+        // console.debug('command:', command)
+        const row = source.cloneNode(true)
+        // TODO: Chrome does not parse the description for _execute_action in manifest.json
+        let description = command.description
+        if (!description && command.name === '_execute_action') {
+            description = 'Show Popup'
         }
+        row.querySelector('.description').textContent = description
+        row.querySelector('kbd').textContent = command.shortcut || 'Not Set'
+        tbody.appendChild(row)
     }
-}
-
-/**
- * Grant Permissions Click Callback
- * @function grantPerms
- * @param {MouseEvent} event
- */
-export async function grantPerms(event) {
-    console.debug('grantPerms:', event)
-    await requestPerms()
 }

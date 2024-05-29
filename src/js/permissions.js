@@ -1,13 +1,14 @@
 // JS for permissions.html
 
-import { checkPerms, linkClick, onRemoved, requestPerms } from './export.js'
+import { checkPerms, grantPerms, linkClick, onRemoved } from './export.js'
 
 chrome.permissions.onAdded.addListener(onAdded)
 chrome.permissions.onRemoved.addListener(onRemoved)
 
 document.addEventListener('DOMContentLoaded', domContentLoaded)
-document.getElementById('grant-perms').addEventListener('click', grantPerms)
-
+document
+    .querySelectorAll('.grant-permissions')
+    .forEach((el) => el.addEventListener('click', grantPerms))
 document
     .querySelectorAll('a[href]')
     .forEach((el) => el.addEventListener('click', linkClick))
@@ -19,16 +20,6 @@ document
 async function domContentLoaded() {
     console.debug('domContentLoaded')
     await checkPerms()
-}
-
-/**
- * Grant Permissions Click Callback
- * @function grantPerms
- * @param {MouseEvent} event
- */
-async function grantPerms(event) {
-    console.debug('grantPerms:', event)
-    await requestPerms()
 }
 
 /**

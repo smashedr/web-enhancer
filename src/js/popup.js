@@ -3,19 +3,20 @@
 import {
     checkPerms,
     linkClick,
-    requestPerms,
+    grantPerms,
     saveOptions,
     showToast,
     updateOptions,
+    updateManifest,
 } from './export.js'
 
 document.addEventListener('DOMContentLoaded', initPopup)
-document.getElementById('grant-perms').addEventListener('click', grantPerms)
+document
+    .querySelectorAll('.grant-permissions')
+    .forEach((el) => el.addEventListener('click', (e) => grantPerms(e, true)))
 document
     .querySelectorAll('a[href]')
-    .forEach((el) =>
-        el.addEventListener('click', (event) => linkClick(event, true))
-    )
+    .forEach((el) => el.addEventListener('click', (e) => linkClick(e, true)))
 document
     .querySelectorAll('#options-form input')
     .forEach((el) => el.addEventListener('change', saveOptions))
@@ -23,18 +24,13 @@ document
     .querySelectorAll('[data-bs-toggle="tooltip"]')
     .forEach((el) => new bootstrap.Tooltip(el))
 
-const hostDiv = document.getElementById('host-div')
-
 /**
  * Initialize Popup
  * @function initPopup
  */
 async function initPopup() {
     console.debug('initPopup')
-    const manifest = chrome.runtime.getManifest()
-    document.querySelector('.version').textContent = manifest.version
-    document.querySelector('[href="homepage_url"]').href = manifest.homepage_url
-
+    updateManifest()
     await checkPerms()
 
     const { options } = await chrome.storage.sync.get(['options'])
@@ -45,6 +41,7 @@ async function initPopup() {
         showToast(chrome.runtime.lastError.message, 'warning')
     }
 
+    const hostDiv = document.getElementById('host-div')
     const [tab, url] = await checkTab()
     console.debug('tab, url:', tab, url)
     if (!tab || !url) {
@@ -93,16 +90,4 @@ async function checkTab() {
         console.log(e)
         return [false, false]
     }
-}
-
-/**
- * Grant Permissions Click Callback
- * Promise from requestPerms is ignored so we can close the popup immediately
- * @function grantPerms
- * @param {MouseEvent} event
- */
-export async function grantPerms(event) {
-    console.debug('grantPerms:', event)
-    requestPerms()
-    window.close()
 }
