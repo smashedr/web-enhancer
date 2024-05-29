@@ -41,8 +41,20 @@
         <div class="form-check form-switch">
             <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
             <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
-                Automatically Focus Inputs
+                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
+                    <i class="fa-solid fa-flask"></i>
+                </span>
+                Automatically Focus Input on Load
                 <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" id="showPassword" type="checkbox" role="switch">
+            <label class="form-check-label" for="showPassword" aria-describedby="showPasswordHelp">
+                Show/Hide Password on Keyboard Shortcut
+                <span data-bs-toggle="tooltip" data-bs-title="Show/Hide Password on Keyboard Shortcut.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>
@@ -50,15 +62,17 @@
         <div class="form-check form-switch">
             <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
             <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
-                Copy Hover Links on Shift/Ctrl+C
+                Copy Hover Text/Links on Shift/Ctrl+C
                 <span data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift/Ctrl+C.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>
         </div>
+
         <hr>
+
         <div class="form-check form-switch">
-            <input class="form-check-input" id="contextMenu" type="checkbox" role="switch">
+            <input class="form-check-input" id="contextMenu" type="checkbox" role="switch" data-related="ctxMenu">
             <label class="form-check-label" for="contextMenu" aria-describedby="contextMenuHelp">
                 Enable Right Click Menu
                 <span data-bs-toggle="tooltip" data-bs-title="Show Context Menu on Right Click.">
@@ -66,6 +80,38 @@
                 </span>
             </label>
         </div>
+        <div id="ctxMenu" class="ms-5" style="display: none;">
+            <div class="form-check form-switch">
+                <input class="form-check-input" id="ctxCopy" type="checkbox" role="switch">
+                <label class="form-check-label" for="ctxCopy" aria-describedby="ctxCopyHelp">
+                    Show Copy Link Text on Links
+                    <span data-bs-toggle="tooltip" data-bs-title="Show Copy Link Text on Links.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" id="ctxPassword" type="checkbox" role="switch">
+                <label class="form-check-label" for="ctxPassword" aria-describedby="ctxPasswordHelp">
+                    Show Hide/Show Password on Inputs
+                    <span data-bs-toggle="tooltip" data-bs-title="Show Hide/Show Password on Inputs.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+                </label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" id="ctxOptions" type="checkbox" role="switch">
+                <label class="form-check-label" for="ctxOptions" aria-describedby="ctxOptionsHelp">
+                    Show Options on Everything
+                    <span data-bs-toggle="tooltip" data-bs-title="Show Options on Everything.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+                </label>
+            </div>
+        </div>
+
+        <hr>
+
         <div class="form-check form-switch">
             <input class="form-check-input" id="showUpdate" type="checkbox" role="switch">
             <label class="form-check-label" for="showUpdate" aria-describedby="showUpdateHelp">

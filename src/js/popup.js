@@ -10,6 +10,8 @@ import {
     updateManifest,
 } from './export.js'
 
+chrome.storage.onChanged.addListener(onChanged)
+
 document.addEventListener('DOMContentLoaded', initPopup)
 document
     .querySelectorAll('.grant-permissions')
@@ -61,6 +63,23 @@ async function initPopup() {
     // console.log('views:', views)
     // const result = views.find((item) => item.location.href.endsWith('html/home.html'))
     // console.log('result:', result)
+}
+
+/**
+ * On Changed Callback
+ * @function onChanged
+ * @param {Object} changes
+ * @param {String} namespace
+ */
+function onChanged(changes, namespace) {
+    console.debug('onChanged:', changes, namespace)
+    for (const [key, { newValue }] of Object.entries(changes)) {
+        if (namespace === 'sync') {
+            if (key === 'options') {
+                updateOptions(newValue)
+            }
+        }
+    }
 }
 
 /**

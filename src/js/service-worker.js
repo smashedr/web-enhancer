@@ -45,6 +45,9 @@ async function onInstalled(details) {
             hoverCopy: true,
             autoFocus: false,
             contextMenu: true,
+            ctxPassword: true,
+            ctxCopy: true,
+            ctxOptions: true,
             showUpdate: false,
         })
     )
@@ -167,22 +170,27 @@ function onChanged(changes, namespace) {
 function createContextMenus(options) {
     console.debug('createContextMenus')
     chrome.contextMenus.removeAll()
-    if (options.showPassword) {
+    if (!options.ctxPassword && !options.ctxCopy && !options.ctxOptions) {
+        return console.debug('No CTX Options Enabled')
+    }
+    if (options.ctxPassword) {
         addContext([['editable'], 'showPassword', '', 'Show/Hide Password'])
     }
-    if (options.hoverCopy) {
+    if (options.ctxCopy) {
         addContext([['link'], 'copyText', '', 'Copy Link Text'])
     }
-    const contexts = [
-        // 'all',
-        // [['all'], 'openHome', 'normal', 'Home Page'],
-        // [['all'], 'showPanel', 'normal', 'Extension Panel'],
-        'all',
-        [['all'], 'openOptions', '', 'Open Options'],
-    ]
-    contexts.forEach((context) => {
-        addContext(context)
-    })
+    if (options.ctxOptions) {
+        addContext('all')
+        addContext([['all'], 'openOptions', '', 'Open Options'])
+    }
+    // const contexts = [
+    //     // 'all',
+    //     // [['all'], 'openHome', 'normal', 'Home Page'],
+    //     // [['all'], 'showPanel', 'normal', 'Extension Panel'],
+    // ]
+    // contexts.forEach((context) => {
+    //     addContext(context)
+    // })
 }
 
 /**

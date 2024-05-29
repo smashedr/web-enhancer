@@ -44,8 +44,8 @@
         <div class="form-check form-switch">
             <input class="form-check-input" id="showPassword" type="checkbox" role="switch">
             <label class="form-check-label" for="showPassword" aria-describedby="showPasswordHelp">
-                Show/Hide Password on Right Click
-                <span data-bs-toggle="tooltip" data-bs-title="Right Click Password Inputs to Show/Hide the Password.">
+                Show/Hide Password on Keyboard Shortcut
+                <span data-bs-toggle="tooltip" data-bs-title="Show/Hide Password on Keyboard Shortcut.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>
@@ -63,14 +63,17 @@
         <hr class="my-1">
 
         <div class="form-check form-switch">
-            <input class="form-check-input" id="contextMenu" type="checkbox" role="switch">
+            <input class="form-check-input" id="contextMenu" type="checkbox" role="switch" data-related="ctxMenu">
             <label class="form-check-label" for="contextMenu" aria-describedby="contextMenuHelp">
                 Enable Right Click Menu
                 <span data-bs-toggle="tooltip" data-bs-title="Show Context Menu on Right Click.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>
+            <a id="ctxMenu" class="ms-1 link-body-emphasis text-decoration-none" href="../html/options.html"
+               style="display: none;">Items</a>
         </div>
+
         <div class="form-check form-switch">
             <input class="form-check-input" id="showUpdate" type="checkbox" role="switch">
             <label class="form-check-label" for="showUpdate" aria-describedby="showUpdateHelp">
