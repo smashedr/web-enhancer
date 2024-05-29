@@ -26,7 +26,7 @@ async function onStartup() {
         const { options } = await chrome.storage.sync.get(['options'])
         console.debug('options:', options)
         if (options.contextMenu) {
-            createContextMenus()
+            createContextMenus(options)
         }
     }
 }
@@ -50,7 +50,7 @@ async function onInstalled(details) {
     )
     console.debug('options:', options)
     if (options.contextMenu) {
-        createContextMenus()
+        createContextMenus(options)
     }
     if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
         const hasPerms = await checkPerms()
@@ -148,11 +148,13 @@ function onChanged(changes, namespace) {
             if (oldValue.contextMenu !== newValue.contextMenu) {
                 if (newValue?.contextMenu) {
                     console.info('Enabled contextMenu...')
-                    createContextMenus()
+                    createContextMenus(newValue)
                 } else {
                     console.info('Disabled contextMenu...')
                     chrome.contextMenus.removeAll()
                 }
+            } else if (newValue.contextMenu) {
+                createContextMenus(newValue)
             }
         }
     }
@@ -162,26 +164,42 @@ function onChanged(changes, namespace) {
  * Create Context Menus
  * @function createContextMenus
  */
-function createContextMenus() {
+function createContextMenus(options) {
     console.debug('createContextMenus')
     chrome.contextMenus.removeAll()
+    if (options.showPassword) {
+        addContext([['editable'], 'showPassword', '', 'Show/Hide Password'])
+    }
+    if (options.hoverCopy) {
+        addContext([['link'], 'copyText', '', 'Copy Link Text'])
+    }
     const contexts = [
-        [['editable'], 'showPassword', 'normal', 'Show/Hide Password'],
-        [['link'], 'copyText', 'normal', 'Copy Link Text'],
-        [['link'], 's-1', 'separator', 'separator'],
-        // [['link', 'image', 'audio', 'video'], 's-1', 'separator', 'separator'],
+        // 'all',
         // [['all'], 'openHome', 'normal', 'Home Page'],
         // [['all'], 'showPanel', 'normal', 'Extension Panel'],
-        [['all'], 's-2', 'separator', 'separator'],
-        [['all'], 'openOptions', 'normal', 'Open Options'],
+        'all',
+        [['all'], 'openOptions', '', 'Open Options'],
     ]
     contexts.forEach((context) => {
-        chrome.contextMenus.create({
-            contexts: context[0],
-            id: context[1],
-            type: context[2],
-            title: context[3],
-        })
+        addContext(context)
+    })
+}
+
+/**
+ * Add Context from Array or Separator from String
+ * @function addContext
+ * @param {Array,String} context
+ */
+function addContext(context) {
+    if (typeof context === 'string') {
+        const id = Math.random().toString().substring(2, 7)
+        context = [[context], id, 'separator', 'separator']
+    }
+    chrome.contextMenus.create({
+        contexts: context[0],
+        id: context[1],
+        type: context[2] || 'normal',
+        title: context[3],
     })
 }
 
