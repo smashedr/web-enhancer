@@ -5,6 +5,7 @@ import {
     checkPerms,
     copyActiveElementText,
     injectFunction,
+    sendNotification,
     showHidePassword,
 } from './export.js'
 
@@ -45,9 +46,11 @@ async function onInstalled(details) {
             hoverCopy: true,
             autoFocus: false,
             contextMenu: true,
+            ctxPage: true,
+            ctxLink: true,
             ctxPassword: true,
             ctxCopy: true,
-            ctxOptions: true,
+            ctxOptions: false,
             showUpdate: false,
         })
     )
@@ -73,6 +76,7 @@ async function onInstalled(details) {
         }
     }
     await chrome.runtime.setUninstallURL(`${githubURL}/issues`)
+    await registerContentScripts()
 }
 
 /**
@@ -101,6 +105,12 @@ async function onClicked(ctx, tab) {
     } else if (ctx.menuItemId === 'showPassword') {
         console.debug('showPassword')
         await injectFunction(showHidePassword)
+    } else if (ctx.menuItemId === 'processUrl') {
+        console.debug('processUrl')
+        await processUrl(ctx.pageUrl)
+    } else if (ctx.menuItemId === 'processVideo') {
+        console.debug('processVideo')
+        await processUrl(ctx.linkUrl)
     } else {
         console.error(`Unknown ctx.menuItemId: ${ctx.menuItemId}`)
     }
@@ -136,6 +146,15 @@ async function onCommand(command) {
 function onMessage(message, sender, sendResponse) {
     console.debug('onMessage: message, sender:', message, sender)
     sendResponse('Success.')
+    if (message.download) {
+        console.log('message.download:', message.download)
+        try {
+            chrome.downloads.download(message.download)
+        } catch (e) {
+            // this throws an error if the user cancels the download
+            console.log(e)
+        }
+    }
 }
 
 /**
@@ -179,9 +198,20 @@ function createContextMenus(options) {
     if (options.ctxCopy) {
         addContext([['link'], 'copyText', '', 'Copy Link Text'])
     }
+    // addContext('all')
+    if (options.ctxLink) {
+        addContext([['link'], 'processVideo', '', 'Process Link'])
+    }
+    if (options.ctxPage) {
+        addContext([['page'], 'processUrl', '', 'Process Page URL'])
+    }
     if (options.ctxOptions) {
-        // addContext('all')
-        if (options.ctxPassword || options.ctxCopy || options.ctxOptions) {
+        if (
+            options.ctxPassword ||
+            options.ctxCopy ||
+            options.ctxLink ||
+            options.ctxPage
+        ) {
             addContext('all')
         }
         addContext([['all'], 'openOptions', '', 'Open Options'])
@@ -240,4 +270,44 @@ async function setDefaultOptions(defaultOptions) {
         console.log('changed:', options)
     }
     return options
+}
+
+/**
+ * Extra content-scripts have to be registered post-install in order to be an optional permission
+ * @function registerDarkMode
+ */
+async function registerContentScripts() {
+    const highperformr = {
+        id: 'highperformr',
+        js: ['js/content/highperformr.js'],
+        matches: ['*://tools.highperformr.ai/youtube-video-downloader*'],
+    }
+    console.log('Register Extra Content Scripts:', highperformr)
+    try {
+        await chrome.scripting.registerContentScripts([highperformr])
+    } catch (e) {
+        console.warn('Error scripting.registerContentScripts', e)
+    }
+}
+
+async function processUrl(url) {
+    console.debug('processUrl:', url)
+    if (url.startsWith('https://www.youtube.com/')) {
+        await processYoutube(url)
+    } else {
+        console.info('No Actions Defined for URL:', url)
+        await sendNotification('Unknown URL.', `No Actions for: ${url}`)
+    }
+}
+
+async function processYoutube(url) {
+    console.debug('processYoutube:', url)
+    const target = 'https://tools.highperformr.ai/youtube-video-downloader'
+    const targetURL = new URL(target)
+    targetURL.searchParams.append('url', url)
+    targetURL.searchParams.append('webEnhancer', 'yes')
+    console.log('targetURL:', targetURL)
+    const tab = await chrome.tabs.create({ active: false, url: targetURL.href })
+    console.log('tab:', tab)
+    console.log('tabId:', tab.id)
 }

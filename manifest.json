@@ -7,6 +7,8 @@
   "manifest_version": 3,
   "permissions": [
     "activeTab",
+    "downloads",
+    "notifications",
     "clipboardWrite",
     "contextMenus",
     "scripting",

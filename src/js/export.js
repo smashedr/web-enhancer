@@ -269,6 +269,29 @@ export function showToast(message, type = 'success') {
 }
 
 /**
+ * Send Notification
+ * @function sendNotification
+ * @param {String} title
+ * @param {String} text
+ * @param {String} id - Optional
+ * @param {Number} timeout - Optional
+ */
+export async function sendNotification(title, text, id = '', timeout = 30) {
+    console.debug('sendNotification', title, text, id, timeout)
+    const options = {
+        type: 'basic',
+        iconUrl: chrome.runtime.getURL('/images/logo96.png'),
+        title: title,
+        message: text,
+    }
+    chrome.notifications.create(id, options, function (notification) {
+        setTimeout(function () {
+            chrome.notifications.clear(notification)
+        }, timeout * 1000)
+    })
+}
+
+/**
  * Inject Function into Current Tab with args
  * @function injectFunction
  * @param {Function} func
