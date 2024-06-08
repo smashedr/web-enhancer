@@ -11,6 +11,7 @@ if (!chrome.storage.onChanged.hasListener(onChanged)) {
     chrome.storage.onChanged.addListener(onChanged)
 }
 
+const contentScript = true
 let options = {}
 
 async function domContentLoaded() {

@@ -170,9 +170,9 @@ function onChanged(changes, namespace) {
 function createContextMenus(options) {
     console.debug('createContextMenus')
     chrome.contextMenus.removeAll()
-    if (!options.ctxPassword && !options.ctxCopy && !options.ctxOptions) {
-        return console.debug('No CTX Options Enabled')
-    }
+    // if (!options.ctxPassword && !options.ctxCopy && !options.ctxOptions) {
+    //     return console.debug('No CTX Options Enabled')
+    // }
     if (options.ctxPassword) {
         addContext([['editable'], 'showPassword', '', 'Show/Hide Password'])
     }
@@ -180,9 +180,13 @@ function createContextMenus(options) {
         addContext([['link'], 'copyText', '', 'Copy Link Text'])
     }
     if (options.ctxOptions) {
-        addContext('all')
+        // addContext('all')
+        if (options.ctxPassword || options.ctxCopy || options.ctxOptions) {
+            addContext('all')
+        }
         addContext([['all'], 'openOptions', '', 'Open Options'])
     }
+
     // const contexts = [
     //     // 'all',
     //     // [['all'], 'openHome', 'normal', 'Home Page'],
@@ -203,6 +207,7 @@ function addContext(context) {
         const id = Math.random().toString().substring(2, 7)
         context = [[context], id, 'separator', 'separator']
     }
+    console.debug('menus.create:', context)
     chrome.contextMenus.create({
         contexts: context[0],
         id: context[1],

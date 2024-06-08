@@ -47,7 +47,7 @@ async function initPopup() {
     const [tab, url] = await checkTab()
     console.debug('tab, url:', tab, url)
     if (!tab || !url) {
-        hostDiv.classList.add('border-danger')
+        hostDiv.classList.add('border-danger-subtle')
         return
     }
     hostDiv.querySelector('kbd').textContent = url.hostname
@@ -84,6 +84,7 @@ function onChanged(changes, namespace) {
 
 /**
  * Check Tab Scripting
+ * TODO: Cleanup this function
  * @function checkTab
  * @return {Boolean}
  */
@@ -97,13 +98,17 @@ async function checkTab() {
         if (!tab?.id || !url.hostname) {
             return [false, false]
         }
-        await chrome.scripting.executeScript({
+        const response = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             injectImmediately: true,
             func: function () {
-                return true
+                return contentScript
             },
         })
+        console.log('response:', response)
+        if (!response && !response[0]?.result) {
+            return [false, false]
+        }
         return [tab, url]
     } catch (e) {
         console.log(e)
