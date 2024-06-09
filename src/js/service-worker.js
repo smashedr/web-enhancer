@@ -5,6 +5,7 @@ import {
     checkPerms,
     copyActiveElementText,
     injectFunction,
+    sendNotification,
     showHidePassword,
 } from './export.js'
 
@@ -14,6 +15,9 @@ chrome.contextMenus.onClicked.addListener(onClicked)
 chrome.commands.onCommand.addListener(onCommand)
 chrome.runtime.onMessage.addListener(onMessage)
 chrome.storage.onChanged.addListener(onChanged)
+chrome.notifications.onClicked.addListener(notificationsClicked)
+
+const nativeApp = 'org.cssnr.hls.downloader'
 
 /**
  * On Startup Callback
@@ -45,9 +49,11 @@ async function onInstalled(details) {
             hoverCopy: true,
             autoFocus: false,
             contextMenu: true,
+            ctxPage: true,
+            ctxLink: true,
             ctxPassword: true,
             ctxCopy: true,
-            ctxOptions: true,
+            ctxOptions: false,
             showUpdate: false,
         })
     )
@@ -101,6 +107,12 @@ async function onClicked(ctx, tab) {
     } else if (ctx.menuItemId === 'showPassword') {
         console.debug('showPassword')
         await injectFunction(showHidePassword)
+    } else if (ctx.menuItemId === 'processUrl') {
+        console.debug('processUrl')
+        await processUrl(ctx.pageUrl)
+    } else if (ctx.menuItemId === 'processVideo') {
+        console.debug('processVideo')
+        await processUrl(ctx.linkUrl)
     } else {
         console.error(`Unknown ctx.menuItemId: ${ctx.menuItemId}`)
     }
@@ -135,6 +147,22 @@ async function onCommand(command) {
  */
 function onMessage(message, sender, sendResponse) {
     console.debug('onMessage: message, sender:', message, sender)
+    if (message.sendNative) {
+        const msg = message.sendNative
+        chrome.runtime.sendNativeMessage(nativeApp, msg).then((response) => {
+            console.log('response:', response)
+            sendNotification('Download Complete.', response.path, response.path)
+        })
+    }
+    if (message.download) {
+        console.log('message.download:', message.download)
+        try {
+            chrome.downloads.download(message.download)
+        } catch (e) {
+            // this throws an error if the user cancels the download
+            console.log(e)
+        }
+    }
     sendResponse('Success.')
 }
 
@@ -164,6 +192,30 @@ function onChanged(changes, namespace) {
 }
 
 /**
+ * Notifications On Clicked Callback
+ * @function notificationsClicked
+ * @param {String} notificationId
+ */
+async function notificationsClicked(notificationId) {
+    console.debug('notifications.onClicked:', notificationId)
+    chrome.notifications.clear(notificationId)
+    if (!isNaN(parseInt(notificationId))) {
+        return console.log('normal notification')
+    }
+    const message = { open: notificationId }
+    console.log('message:', message)
+    try {
+        const response = await chrome.runtime.sendNativeMessage(
+            nativeApp,
+            message
+        )
+        console.log('response:', response)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+/**
  * Create Context Menus
  * @function createContextMenus
  */
@@ -179,9 +231,20 @@ function createContextMenus(options) {
     if (options.ctxCopy) {
         addContext([['link'], 'copyText', '', 'Copy Link Text'])
     }
+    // addContext('all')
+    if (options.ctxLink) {
+        addContext([['link'], 'processVideo', '', 'Process Link'])
+    }
+    if (options.ctxPage) {
+        addContext([['page'], 'processUrl', '', 'Process Page URL'])
+    }
     if (options.ctxOptions) {
-        // addContext('all')
-        if (options.ctxPassword || options.ctxCopy || options.ctxOptions) {
+        if (
+            options.ctxPassword ||
+            options.ctxCopy ||
+            options.ctxLink ||
+            options.ctxPage
+        ) {
             addContext('all')
         }
         addContext([['all'], 'openOptions', '', 'Open Options'])
@@ -207,7 +270,7 @@ function addContext(context) {
         const id = Math.random().toString().substring(2, 7)
         context = [[context], id, 'separator', 'separator']
     }
-    console.debug('menus.create:', context)
+    // console.debug('menus.create:', context)
     chrome.contextMenus.create({
         contexts: context[0],
         id: context[1],
@@ -240,4 +303,31 @@ async function setDefaultOptions(defaultOptions) {
         console.log('changed:', options)
     }
     return options
+}
+
+async function processUrl(url) {
+    console.debug('processUrl:', url)
+    if (url.startsWith('https://www.youtube.com/')) {
+        await processYoutube(url)
+    } else {
+        console.info('No Actions Defined for URL:', url)
+        await sendNotification('Unknown URL.', `No Actions for: ${url}`)
+    }
+}
+
+async function processYoutube(url) {
+    console.debug('processYoutube:', url)
+    // if (!(await testNativeMessage(null, 'error'))) {
+    //     return
+    // }
+    const msg = { youtube: url }
+    chrome.runtime.sendNativeMessage(nativeApp, msg).then((response) => {
+        console.log('response:', response)
+        if (response.success) {
+            sendNotification('Download Complete.', response.path, response.path)
+        } else {
+            sendNotification('Download Error.', response.message)
+        }
+    })
+    // await sendNotification('Download Started.', url)
 }
