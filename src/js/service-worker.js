@@ -308,19 +308,19 @@ async function setDefaultOptions(defaultOptions) {
 async function processUrl(url) {
     console.debug('processUrl:', url)
     if (url.startsWith('https://www.youtube.com/')) {
-        await processYoutube(url)
+        await processYtdlp(url)
     } else {
         console.info('No Actions Defined for URL:', url)
         await sendNotification('Unknown URL.', `No Actions for: ${url}`)
     }
 }
 
-async function processYoutube(url) {
-    console.debug('processYoutube:', url)
+async function processYtdlp(url) {
+    console.debug('processYtdlp:', url)
     // if (!(await testNativeMessage(null, 'error'))) {
     //     return
     // }
-    const msg = { youtube: url }
+    const msg = { ytdlp: url }
     chrome.runtime.sendNativeMessage(nativeApp, msg).then((response) => {
         console.log('response:', response)
         if (response.success) {
