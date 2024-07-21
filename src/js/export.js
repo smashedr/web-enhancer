@@ -122,7 +122,7 @@ export async function linkClick(event, close = false) {
  * @function activateOrOpen
  * @param {String} url
  * @param {Boolean} [open]
- * @return {Boolean}
+ * @return {Promise<*|Boolean>}
  */
 export async function activateOrOpen(url, open = true) {
     console.debug('activateOrOpen:', url)
@@ -157,7 +157,7 @@ export function updateManifest() {
 /**
  * Check Host Permissions
  * @function checkPerms
- * @return {Boolean}
+ * @return {Promise<*|Boolean>}
  */
 export async function checkPerms() {
     const hasPerms = await chrome.permissions.contains({
@@ -198,7 +198,7 @@ export async function grantPerms(event, close = false) {
 /**
  * Request Host Permissions
  * @function requestPerms
- * @return {chrome.permissions.request}
+ * @return {Promise<*|chrome.permissions.request>}
  */
 export async function requestPerms() {
     return await chrome.permissions.request({

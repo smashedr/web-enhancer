@@ -1,32 +1,47 @@
 // JS Content Script
 
-console.info('Web Enhancer - RUNNING content-script.js')
+// console.info('Web Enhancer - RUNNING content-script.js')
 
-document.addEventListener('DOMContentLoaded', domContentLoaded)
+// document.addEventListener('DOMContentLoaded', domContentLoaded)
 document.addEventListener('keydown', keyboardEvent)
 document.addEventListener('click', mouseEvent)
 
 if (!chrome.storage.onChanged.hasListener(onChanged)) {
-    console.debug('Adding storage.onChanged Listener')
+    // console.debug('Adding storage.onChanged Listener')
     chrome.storage.onChanged.addListener(onChanged)
 }
 
 const contentScript = true
 let options = {}
 
-async function domContentLoaded() {
-    console.log('domContentLoaded')
+;(async () => {
     const data = await chrome.storage.sync.get(['options'])
     options = data.options
-    console.debug('options:', options)
+    // console.debug('options:', options)
     if (options.autoFocus) {
         autoFocus()
     }
-    // if (options.hoverCopy) {
-    //     console.debug('enable: hoverCopy')
-    //     document.addEventListener('keydown', keyboardEvent)
-    // }
-}
+    if (options.tabFocus) {
+        tabFocus()
+    }
+})()
+
+// async function domContentLoaded() {
+//     // console.debug('domContentLoaded')
+//     const data = await chrome.storage.sync.get(['options'])
+//     options = data.options
+//     // console.debug('options:', options)
+//     if (options.autoFocus) {
+//         autoFocus()
+//     }
+//     if (options.tabFocus) {
+//         tabFocus()
+//     }
+//     // if (options.hoverCopy) {
+//     //     console.debug('enable: hoverCopy')
+//     //     document.addEventListener('keydown', keyboardEvent)
+//     // }
+// }
 
 /**
  * On Changed Callback
@@ -80,24 +95,6 @@ async function mouseEvent(e) {
 
 // Functions
 
-function autoFocus() {
-    // console.debug('autoFocus')
-    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-        return console.debug('input already active')
-    }
-    const inputs = document.querySelectorAll('input, textarea')
-    let input
-    for (const el of inputs) {
-        // console.debug('el:', el.checkVisibility())
-        if (el.offsetParent) {
-            input = el
-            break
-        }
-    }
-    console.debug('input:', input)
-    input?.focus()
-}
-
 async function copyHoverLink(type = 'href') {
     const selection = window.getSelection()
     // console.log('selection:', selection)
@@ -134,4 +131,143 @@ async function copyHoverLink(type = 'href') {
         hover.style.backgroundColor = ''
         hover.style.outline = ''
     }, 1000)
+}
+
+function autoFocus() {
+    // console.debug('autoFocus')
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        return console.debug('input already active')
+    }
+    const inputs = document.querySelectorAll('input, textarea')
+    let input
+    for (const el of inputs) {
+        // console.debug('el:', el.checkVisibility())
+        if (el.offsetParent) {
+            input = el
+            break
+        }
+    }
+    console.debug('input:', input)
+    input?.focus()
+}
+
+function tabFocus() {
+    console.debug('tabFocus')
+
+    // // Custom Functions and Events
+    // // Disable blur Events
+    // window.addEventListener(
+    //     'blur',
+    //     function (e) {
+    //         e.preventDefault()
+    //         e.stopPropagation()
+    //         e.stopImmediatePropagation()
+    //         console.log('+++window blur EVENT')
+    //     },
+    //     { passive: true }
+    // )
+    // document.addEventListener(
+    //     'blur',
+    //     function (e) {
+    //         e.preventDefault()
+    //         e.stopPropagation()
+    //         e.stopImmediatePropagation()
+    //         console.log('+++document blur EVENT')
+    //     },
+    //     { passive: true }
+    // )
+    //
+    // // Disable focus Events
+    // document.addEventListener(
+    //     'focus',
+    //     function (e) {
+    //         e.preventDefault()
+    //         e.stopImmediatePropagation()
+    //         console.log('+++document focus EVENT')
+    //     },
+    //     { passive: true }
+    // )
+    // window.addEventListener(
+    //     'focus',
+    //     function (e) {
+    //         e.preventDefault()
+    //         e.stopImmediatePropagation()
+    //         console.log('+++window focus EVENT')
+    //     },
+    //     { passive: true }
+    // )
+    // // Object.defineProperty(Document.prototype.wrappedJSObject, 'hasFocus', {
+    // //     get: exportFunction(function hasFocus() {
+    // //         return false
+    // //     }, window.wrappedJSObject),
+    // //     enumerable: true,
+    // //     configurable: true,
+    // // })
+    // Object.defineProperty(
+    //     Document.prototype.wrappedJSObject || Document.prototype,
+    //     'hasFocus',
+    //     {
+    //         value: function () {
+    //             return false
+    //         },
+    //         writable: true,
+    //         enumerable: true,
+    //         configurable: true,
+    //     }
+    // )
+
+    // https://chromewebstore.google.com/detail/disable-page-visibility-a/eecfoibnnhheckhfokpihgefmlnenofb?hl=en
+    window.addEventListener(
+        'visibilitychange',
+        function (event) {
+            event.stopImmediatePropagation()
+        },
+        true
+    )
+    window.addEventListener(
+        'webkitvisibilitychange',
+        function (event) {
+            event.stopImmediatePropagation()
+        },
+        true
+    )
+    window.addEventListener(
+        'blur',
+        function (event) {
+            event.stopImmediatePropagation()
+        },
+        true
+    )
+
+    // // https://addons.mozilla.org/en-US/firefox/addon/disable-page-visibility/
+    // // visibilitychange events are captured and stopped
+    // document.addEventListener(
+    //     'visibilitychange',
+    //     function (e) {
+    //         e.preventDefault()
+    //         e.stopImmediatePropagation()
+    //         console.log('+++document visibilitychange EVENT')
+    //     },
+    //     { passive: true }
+    // )
+    // // document.visibilityState always returns false
+    // Object.defineProperty(Document.prototype.wrappedJSObject, 'hidden', {
+    //     get: exportFunction(function hidden() {
+    //         return false
+    //     }, window.wrappedJSObject),
+    //     enumerable: true,
+    //     configurable: true,
+    // })
+    // // document.visibilityState always returns "visible"
+    // Object.defineProperty(
+    //     Document.prototype.wrappedJSObject,
+    //     'visibilityState',
+    //     {
+    //         get: exportFunction(function visibilityState() {
+    //             return 'visible'
+    //         }, window.wrappedJSObject),
+    //         enumerable: true,
+    //         configurable: true,
+    //     }
+    // )
 }

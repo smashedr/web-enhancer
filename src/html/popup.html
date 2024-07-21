@@ -30,18 +30,6 @@
 
     <form id="options-form" class="small">
         <div class="form-check form-switch">
-            <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
-            <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
-                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
-                    <i class="fa-solid fa-flask"></i>
-                </span>
-                Automatically Focus Input on Load
-                <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
-        </div>
-        <div class="form-check form-switch">
             <input class="form-check-input" id="showPassword" type="checkbox" role="switch">
             <label class="form-check-label" for="showPassword" aria-describedby="showPasswordHelp">
                 Show/Hide Password on Ctrl+Shift+Click
@@ -55,6 +43,31 @@
             <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
                 Copy Link Text/URL on Hover Shift/Ctrl+C
                 <span data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift+C or Ctrl+C.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
+
+        <div class="form-check form-switch">
+            <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
+            <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
+                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
+                    <i class="fa-solid fa-flask"></i>
+                </span>
+                Automatically Focus Input on Load
+                <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
+                    <i class="fa-solid fa-circle-info ms-1"></i>
+                </span>
+            </label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" id="tabFocus" type="checkbox" role="switch">
+            <label class="form-check-label" for="tabFocus" aria-describedby="tabFocusHelp">
+                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
+                    <i class="fa-solid fa-flask"></i>
+                </span>
+                Prevent Tabs from Detecting Focus
+                <span data-bs-toggle="tooltip" data-bs-title="This treats all tabs as if they are focused adn in view.">
                     <i class="fa-solid fa-circle-info ms-1"></i>
                 </span>
             </label>

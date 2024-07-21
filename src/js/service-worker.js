@@ -39,18 +39,18 @@ async function onStartup() {
 async function onInstalled(details) {
     console.log('onInstalled:', details)
     const githubURL = 'https://github.com/cssnr/web-enhancer'
-    const options = await Promise.resolve(
-        setDefaultOptions({
-            showPassword: true,
-            hoverCopy: true,
-            autoFocus: false,
-            contextMenu: true,
-            ctxPassword: true,
-            ctxCopy: true,
-            ctxOptions: true,
-            showUpdate: false,
-        })
-    )
+    const options = await setDefaultOptions({
+        showPassword: true,
+        hoverCopy: true,
+        autoFocus: false,
+        tabFocus: false,
+        contextMenu: true,
+        ctxPassword: true,
+        ctxCopy: true,
+        ctxOptions: true,
+        showUpdate: false,
+    })
+
     console.debug('options:', options)
     if (options.contextMenu) {
         createContextMenus(options)
@@ -220,7 +220,7 @@ function addContext(context) {
  * Set Default Options
  * @function setDefaultOptions
  * @param {Object} defaultOptions
- * @return {Object}
+ * @return {Promise<*|Object>}
  */
 async function setDefaultOptions(defaultOptions) {
     console.log('setDefaultOptions', defaultOptions)
