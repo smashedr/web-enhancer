@@ -17,7 +17,7 @@ Modern Chrome Web Extension and Firefox Browser Addon to Enhance the Web.
 
 # Install
 
-* [Google Chrome Web Store](https://chromewebstore.google.com/detail/link-extractor/ifefifghpkllfibejafbakmflidjcjfp)
+* [Google Chrome Web Store](https://github.com/smashedr/web-enhancer/releases/latest)
 * [Mozilla Firefox Add-ons](https://github.com/smashedr/web-enhancer/releases/latest)
 
 [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome_48x48.png)](https://github.com/smashedr/web-enhancer/releases/latest)
