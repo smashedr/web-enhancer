@@ -1,3 +1,4 @@
+[![GitHub Release Version](https://img.shields.io/github/v/release/smashedr/web-enhancer?logo=github)](https://github.com/smashedr/web-enhancer/releases/latest)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/smashedr/web-enhancer?logo=github&logoColor=white&label=updated)](https://github.com/smashedr/web-enhancer/graphs/commit-activity)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/smashedr/web-enhancer?logo=htmx&logoColor=white)](https://github.com/smashedr/web-enhancer)
 [![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white)](https://cssnr.github.io/)
