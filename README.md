@@ -8,17 +8,17 @@
 
 Modern Chrome Web Extension and Firefox Browser Addon to Enhance the Web.
 
-* [Install](#install)
-* [Features](#features)
-* [Configuration](#configuration)
-* [Development](#development)
-    - [Building](#building)
-* [Contributing](#Contributing)
+- [Install](#install)
+- [Features](#features)
+- [Configuration](#configuration)
+- [Development](#development)
+  - [Building](#building)
+- [Contributing](#Contributing)
 
 # Install
 
-* [Google Chrome Web Store](https://github.com/smashedr/web-enhancer/releases/latest)
-* [Mozilla Firefox Add-ons](https://github.com/smashedr/web-enhancer/releases/latest)
+- [Google Chrome Web Store](https://github.com/smashedr/web-enhancer/releases/latest)
+- [Mozilla Firefox Add-ons](https://github.com/smashedr/web-enhancer/releases/latest)
 
 [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome_48x48.png)](https://github.com/smashedr/web-enhancer/releases/latest)
 [![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox_48x48.png)](https://github.com/smashedr/web-enhancer/releases/latest)
@@ -147,6 +147,8 @@ Other Web Extensions I have created and published:
 
 - [Link Extractor](https://github.com/cssnr/link-extractor)
 - [Open Links in New Tab](https://github.com/cssnr/open-links-in-new-tab)
+- [Auto Auth](https://github.com/cssnr/auto-auth)
+- [Cache Cleaner](https://github.com/cssnr/cache-cleaner)
 - [HLS Video Downloader](https://github.com/cssnr/hls-video-downloader)
 - [SMWC Web Extension](https://github.com/cssnr/smwc-web-extension)
 - [PlayDrift Extension](https://github.com/cssnr/playdrift-extension)

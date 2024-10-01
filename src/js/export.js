@@ -1,5 +1,7 @@
 // JS Exports
 
+export const githubURL = 'https://github.com/cssnr/web-enhancer'
+
 /**
  * Save Options Callback
  * @function saveOptions
@@ -26,13 +28,20 @@ export async function saveOptions(event) {
     } else {
         value = event.target.value
     }
-    if (value !== undefined) {
+
+    // Handle Object Subkeys
+    if (key.includes('-')) {
+        const subkey = key.split('-')[1]
+        key = key.split('-')[0]
+        console.log(`%c Set: ${key}.${subkey}:`, 'color: DeepSkyBlue', value)
+        options[key][subkey] = value
+    } else if (value !== undefined) {
+        console.log(`Set %c ${key}:`, 'color: Khaki', value)
         options[key] = value
-        console.info(`Set: ${key}:`, value)
-        await chrome.storage.sync.set({ options })
     } else {
-        console.warn('No value for key:', key)
+        console.warn('No Value for key:', key)
     }
+    await chrome.storage.sync.set({ options })
 }
 
 /**
@@ -43,29 +52,56 @@ export async function saveOptions(event) {
 export function updateOptions(options) {
     console.debug('updateOptions:', options)
     for (let [key, value] of Object.entries(options)) {
+        // console.debug('%c Processing key:', 'color: Aqua', key)
         if (typeof value === 'undefined') {
             console.warn('Value undefined for key:', key)
             continue
         }
         if (key.startsWith('radio')) {
-            key = value
-            value = true
+            key = value // NOSONAR
+            value = true // NOSONAR
         }
         // console.debug(`${key}: ${value}`)
-        const el = document.getElementById(key)
-        if (!el) {
+
+        // Handle Object Subkeys
+        if (typeof value === 'object') {
+            // console.debug('%c Processing Object:', 'color: Yellow', key, value)
+            for (const [subKey, subValue] of Object.entries(value)) {
+                // console.debug(
+                //     `%c Sub-Key: ${key}-${subKey}:`,
+                //     'color: Magenta',
+                //     subValue
+                // )
+                const el = document.getElementById(`${key}-${subKey}`)
+                processEl(el, subValue)
+            }
             continue
         }
-        if (el.tagName !== 'INPUT') {
-            el.textContent = value.toString()
-        } else if (el.type === 'checkbox') {
-            el.checked = value
-        } else {
-            el.value = value
-        }
-        if (el.dataset.related) {
-            hideShowElement(`#${el.dataset.related}`, value)
-        }
+
+        const el = document.getElementById(key)
+        processEl(el, value)
+    }
+}
+
+/**
+ * @function processEl
+ * @param {HTMLElement} el
+ * @param {Boolean} value
+ */
+function processEl(el, value) {
+    // console.debug('processEl:', el, value)
+    if (!el) {
+        return
+    }
+    if (el.tagName !== 'INPUT') {
+        el.textContent = value.toString()
+    } else if (['checkbox', 'radio'].includes(el.type)) {
+        el.checked = value
+    } else {
+        el.value = value
+    }
+    if (el.dataset.related) {
+        hideShowElement(`#${el.dataset.related}`, value)
     }
 }
 
@@ -81,30 +117,26 @@ function hideShowElement(selector, show, speed = 'fast') {
 
 /**
  * Link Click Callback
- * Firefox requires a call to window.close()
+ * Note: Firefox popup requires a call to window.close()
  * @function linkClick
  * @param {MouseEvent} event
- * @param {Boolean} close
+ * @param {Boolean} [close]
  */
 export async function linkClick(event, close = false) {
-    console.debug('linkClick:', event)
-    console.debug('close:', close)
+    console.debug('linkClick:', close, event)
     event.preventDefault()
-    const anchor = event.target.closest('a')
-    const href = anchor.getAttribute('href').replace(/^\.+/g, '')
+    const href = event.currentTarget.getAttribute('href').replace(/^\.+/g, '')
     console.debug('href:', href)
     let url
-    if (href.endsWith('html/options.html')) {
+    if (href.startsWith('#')) {
+        console.debug('return on anchor link')
+        return
+    } else if (href.endsWith('html/options.html')) {
         chrome.runtime.openOptionsPage()
         if (close) window.close()
         return
     } else if (href.endsWith('html/panel.html')) {
-        await chrome.windows.create({
-            type: 'panel',
-            url: '/html/panel.html',
-            width: 720,
-            height: 480,
-        })
+        await openExtPanel()
         if (close) window.close()
         return
     } else if (href.startsWith('http')) {
@@ -144,14 +176,17 @@ export async function activateOrOpen(url, open = true) {
  * Update DOM with Manifest Details
  * @function updateManifest
  */
-export function updateManifest() {
+export async function updateManifest() {
     const manifest = chrome.runtime.getManifest()
-    document
-        .querySelectorAll('.version')
-        .forEach((el) => (el.textContent = manifest.version))
-    document
-        .querySelectorAll('[href="homepage_url"]')
-        .forEach((el) => (el.href = manifest.homepage_url))
+    document.querySelectorAll('.version').forEach((el) => {
+        el.textContent = manifest.version
+    })
+    document.querySelectorAll('[href="homepage_url"]').forEach((el) => {
+        el.href = manifest.homepage_url
+    })
+    document.querySelectorAll('[href="version_url"]').forEach((el) => {
+        el.href = `${githubURL}/releases/tag/${manifest.version}`
+    })
 }
 
 /**
@@ -182,13 +217,13 @@ export async function checkPerms() {
 
 /**
  * Grant Permissions Click Callback
- * Promise from requestPerms is ignored so we can close the popup immediately
  * @function grantPerms
  * @param {MouseEvent} event
  * @param {Boolean} [close]
  */
 export async function grantPerms(event, close = false) {
     console.debug('grantPerms:', event)
+    // noinspection ES6MissingAwait
     requestPerms()
     if (close) {
         window.close()
@@ -247,6 +282,31 @@ export async function onRemoved(permissions) {
 }
 
 /**
+ * Open Extension Panel
+ * @function openExtPanel
+ * @param {String} [url]
+ * @param {Number} [width]
+ * @param {Number} [height]
+ * @return {Promise<chrome.windows.Window>}
+ */
+export async function openExtPanel(
+    url = '/html/panel.html',
+    width = 1280,
+    height = 720
+) {
+    console.debug(`openExtPanel: ${url}`, width, height)
+    const windows = await chrome.windows.getAll({ populate: true })
+    for (const window of windows) {
+        // console.debug('window:', window)
+        if (window.tabs[0]?.url?.endsWith(url)) {
+            console.debug(`%c Panel found: ${window.id}`, 'color: Lime')
+            return chrome.windows.update(window.id, { focused: true })
+        }
+    }
+    return chrome.windows.create({ type: 'panel', url, width, height })
+}
+
+/**
  * Show Bootstrap Toast
  * @function showToast
  * @param {String} message
@@ -291,6 +351,7 @@ export async function injectFunction(func, args) {
  */
 export function copyActiveElementText(ctx) {
     console.debug('copyActiveElementText:', ctx)
+    // noinspection JSUnresolvedReference
     let text =
         ctx.linkText?.trim() ||
         document.activeElement.innerText?.trim() ||

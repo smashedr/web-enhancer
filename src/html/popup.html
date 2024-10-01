@@ -14,6 +14,38 @@
 <body>
 
 <div class="container-fluid p-2">
+    <div class="d-flex flex-row align-items-center">
+        <div class="dropdown">
+            <a class="link-body-emphasis text-decoration-none" id="bs-theme-dropdown" title="Theme Switcher" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">
+                <i id="theme-icon" class="fa-solid fa-circle-half-stroke fa-lg" style="min-width: 20px;"></i> <i class="fa-solid fa-caret-down fa-xs mx-1"></i></a>
+            <ul class="dropdown-menu auto dropdown-menu-end" aria-labelledby="bs-theme-dropdown">
+                <li><button class="dropdown-item" data-bs-theme-value="dark" aria-pressed="false">
+                    <i class="fa-regular fa-moon" style="min-width: 16px;"></i> <span class="ms-3">Dark</span></button></li>
+                <li><button class="dropdown-item" data-bs-theme-value="light" aria-pressed="false">
+                    <i class="fa-solid fa-sun" style="min-width: 16px;"></i> <span class="ms-3">Light</span></button></li>
+                <li><button class="dropdown-item" data-bs-theme-value="auto" aria-pressed="false">
+                    <i class="fa-solid fa-circle-half-stroke" style="min-width: 16px;"></i> <span class="ms-3">Auto</span></button></li>
+            </ul>
+        </div>
+
+        <div class="flex-fill text-center">
+            <a class="link-body-emphasis text-decoration-none fs-4" title="Home Page" href="homepage_url">
+                <img src="../images/logo32.png" alt="Logo" class="mb-1" style="height: 1.1em;">
+                Web Enhancer</a>
+            <a class="link-body-emphasis text-decoration-none small" title="Release Notes" href="version_url">
+                v<span class="version"></span></a>
+        </div>
+
+        <div class="">
+            <a class="btn btn-sm btn-outline-info" role="button" href="../html/options.html" title="Options">
+                <i class="fa-solid fa-gears"></i></a>
+        </div>
+    </div> <!-- d-flex -->
+</div> <!-- container-fluid -->
+
+<hr class="my-0">
+
+<div class="container-fluid p-3">
     <div class="d-none grant-perms">
         <button class="btn btn-lg btn-success w-100 mb-1 grant-permissions" type="button"
                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
@@ -24,95 +56,58 @@
         <hr class="my-2">
     </div>
 
-    <div id="host-div" class="small pt-1 pb-2 text-center border border-2 rounded mb-2 has-perms" style="overflow: hidden;">
-        <kbd>Invalid Site</kbd>
+    <div id="host-div" class="small p-1 pb-0 text-center border border-2 rounded mb-2 has-perms">
+        <kbd class="text-ellipsis d-inline-block">Invalid Site</kbd>
     </div>
 
     <form id="options-form" class="small">
         <div class="form-check form-switch">
             <input class="form-check-input" id="showPassword" type="checkbox" role="switch">
-            <label class="form-check-label" for="showPassword" aria-describedby="showPasswordHelp">
-                Show/Hide Password on Ctrl+Shift+Click
-                <span data-bs-toggle="tooltip" data-bs-title="Show/Hide Password on Ctrl+Shift+Click.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="showPassword">Show/Hide Password on Ctrl+Shift+Click</label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show/Hide Password on Ctrl+Shift+Click."></i>
         </div>
         <div class="form-check form-switch">
             <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
-            <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
-                Copy Link Text/URL on Hover Shift/Ctrl+C
-                <span data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift+C or Ctrl+C.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="hoverCopy">Copy Link Text/URL on Hover Shift/Ctrl+C</label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift+C or Ctrl+C."></i>
         </div>
 
         <div class="form-check form-switch">
             <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
-            <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
-                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
-                    <i class="fa-solid fa-flask"></i>
-                </span>
-                Automatically Focus Input on Load
-                <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="autoFocus">Automatically Focus Input on Load</label>
+            <i class="fa-solid fa-flask text-warning-emphasis ms-1" data-bs-toggle="tooltip" data-bs-title="Experimental Feature!"></i>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found."></i>
         </div>
         <div class="form-check form-switch">
             <input class="form-check-input" id="tabFocus" type="checkbox" role="switch">
-            <label class="form-check-label" for="tabFocus" aria-describedby="tabFocusHelp">
-                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
-                    <i class="fa-solid fa-flask"></i>
-                </span>
-                Prevent Tabs from Detecting Focus
-                <span data-bs-toggle="tooltip" data-bs-title="This treats all tabs as if they are focused adn in view.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="tabFocus">Prevent Tabs from Detecting Focus</label>
+            <i class="fa-solid fa-flask text-warning-emphasis ms-1" data-bs-toggle="tooltip" data-bs-title="Experimental Feature!"></i>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="This treats all tabs as if they are focused adn in view."></i>
         </div>
 
         <hr class="my-1">
 
         <div class="form-check form-switch">
-            <input class="form-check-input" id="contextMenu" type="checkbox" role="switch" data-related="ctxMenu">
-            <label class="form-check-label" for="contextMenu" aria-describedby="contextMenuHelp">
-                Enable Right Click Menu
-                <span data-bs-toggle="tooltip" data-bs-title="Show Context Menu on Right Click.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
-            <a id="ctxMenu" class="ms-1 link-body-emphasis text-decoration-none" href="../html/options.html"
-               style="display: none;">Items</a>
+            <input class="form-check-input" id="ctx-enable" type="checkbox" role="switch" data-related="ctxMenu">
+            <label class="form-check-label" for="ctx-enable">Enable Right Click Menu</label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show Context Menu on Right Click."></i>
+            <a id="ctxMenu" class="ms-1 link-body-emphasis text-decoration-none" href="../html/options.html" style="display: none;">Items</a>
         </div>
 
         <div class="form-check form-switch">
             <input class="form-check-input" id="showUpdate" type="checkbox" role="switch">
-            <label class="form-check-label" for="showUpdate" aria-describedby="showUpdateHelp">
-                Show Release Notes on Update
-                <span data-bs-toggle="tooltip" data-bs-title="Show Release Notes on Version Update.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="showUpdate">Show Release Notes on Update</label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show Release Notes on Version Update."></i>
         </div>
     </form>
 
     <div class="d-grid g-2 gap-2 my-2">
-        <a class="btn btn-outline-info w-100" role="button" href="../html/options.html">
+        <a class="btn btn-sm btn-outline-info w-100" role="button" href="../html/options.html">
             <i class="fa-solid fa-sliders me-1"></i> More Options</a>
 <!--        <a class="btn btn-outline-primary" role="button" href="../html/home.html">-->
 <!--            <i class="fa-solid fa-house-chimney me-1"></i> Open Home Page</a>-->
 <!--        <a class="btn btn-primary" role="button" href="../html/panel.html">-->
 <!--            <i class="fa-regular fa-window-maximize me-1"></i> Show Extension Panel</a>-->
-    </div>
-
-    <hr class="my-2">
-
-    <div class="d-flex justify-content-center align-items-center text-center small">
-        <img src="../images/logo16.png" width="16" height="16" alt="Web Enhancer" title="Web Enhancer">
-        <a class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover mx-2" type="button" rel="noopener"
-           href="homepage_url">Web Enhancer</a> v<span class="version"></span>
     </div>
 </div> <!-- container -->
 

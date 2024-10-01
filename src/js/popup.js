@@ -32,37 +32,41 @@ document
  */
 async function initPopup() {
     console.debug('initPopup')
+    // noinspection ES6MissingAwait
     updateManifest()
-    await checkPerms()
+    checkPerms().then((hasPerms) => {
+        if (!hasPerms) {
+            console.log('%c Host Permissions Not Granted', 'color: Red')
+        }
+    })
 
-    const { options } = await chrome.storage.sync.get(['options'])
-    console.debug('options:', options)
-    updateOptions(options)
+    chrome.storage.sync.get(['options']).then((items) => {
+        console.debug('options:', items.options)
+        updateOptions(items.options)
+    })
 
-    if (chrome.runtime.lastError) {
-        showToast(chrome.runtime.lastError.message, 'warning')
-    }
-
-    const hostDiv = document.getElementById('host-div')
+    // This blok of code should be updated...
+    const host = document.getElementById('host-div')
     const [tab, url] = await checkTab()
     console.debug('tab, url:', tab, url)
     if (!tab || !url) {
-        hostDiv.classList.add('border-danger-subtle')
+        host.classList.add('border-danger-subtle')
         return
     }
-    hostDiv.querySelector('kbd').textContent = url.hostname
-    hostDiv.classList.add('border-success')
+    host.querySelector('kbd').textContent = url.hostname
+    host.classList.add('border-success')
 
-    // const platformInfo = await chrome.runtime.getPlatformInfo()
-    // console.log('platformInfo:', platformInfo)
+    // const [tab] = await chrome.tabs.query({ currentWindow: true, active: true })
+    // console.debug('tab:', tab)
 
     // const tabs = await chrome.tabs.query({ highlighted: true })
     // console.log('tabs:', tabs)
 
     // const views = chrome.extension.getViews()
     // console.log('views:', views)
-    // const result = views.find((item) => item.location.href.endsWith('html/home.html'))
-    // console.log('result:', result)
+
+    // const platform = await chrome.runtime.getPlatformInfo()
+    // console.debug('platform:', platform)
 }
 
 /**

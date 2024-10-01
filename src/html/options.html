@@ -19,12 +19,11 @@
 <div class="card mb-3">
 <div class="card-body">
     <div class="d-flex justify-content-center align-items-center">
-        <img src="../images/logo48.png" class="me-2" height="48" width="48"
-             alt="Web Enhancer" title="Web Enhancer">
+        <img src="../images/logo48.png" class="me-2" height="48" width="48" alt="Simple Extension" title="Simple Extension">
         <h1>Web Enhancer</h1>
     </div>
-    <div class="clearfix"></div>
     <p class="text-center lead">v<span class="version"></span></p>
+
     <table id="keyboard-shortcuts" class="table table-sm table-borderless table-hover">
         <caption class="visually-hidden">Keyboard Shortcuts</caption>
         <thead class="visually-hidden"><tr><th>Description</th><th>Shortcut</th></tr></thead>
@@ -36,90 +35,56 @@
         </tr>
         </tfoot>
     </table>
+
     <hr>
+
     <form id="options-form" class="options">
         <div class="form-check form-switch">
             <input class="form-check-input" id="showPassword" type="checkbox" role="switch">
-            <label class="form-check-label" for="showPassword" aria-describedby="showPasswordHelp">
-                Show/Hide Password on Ctrl+Shift+Click
-                <span data-bs-toggle="tooltip" data-bs-title="Show/Hide Password on Ctrl+Shift+Click.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="showPassword">Show/Hide Password on Ctrl+Shift+Click</label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show/Hide Password on Ctrl+Shift+Click."></i>
         </div>
         <div class="form-check form-switch">
             <input class="form-check-input" id="hoverCopy" type="checkbox" role="switch">
-            <label class="form-check-label" for="hoverCopy" aria-describedby="hoverCopyHelp">
-                Copy Link Text/URL on Hover Shift/Ctrl+C
-                <span data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift+C or Ctrl+C.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="hoverCopy">Copy Link Text/URL on Hover Shift/Ctrl+C</label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Copy Links by Hovering Over and Pressing Shift+C or Ctrl+C."></i>
         </div>
 
         <div class="form-check form-switch">
             <input class="form-check-input" id="autoFocus" type="checkbox" role="switch">
-            <label class="form-check-label" for="autoFocus" aria-describedby="autoFocusHelp">
-                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
-                    <i class="fa-solid fa-flask"></i>
-                </span>
-                Automatically Focus Input on Load
-                <span data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="autoFocus">Automatically Focus Input on Load</label>
+            <i class="fa-solid fa-flask text-warning-emphasis ms-1" data-bs-toggle="tooltip" data-bs-title="Experimental Feature!"></i>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Automatically Focus the First Input Found."></i>
         </div>
         <div class="form-check form-switch">
             <input class="form-check-input" id="tabFocus" type="checkbox" role="switch">
-            <label class="form-check-label" for="tabFocus" aria-describedby="tabFocusHelp">
-                <span class="text-warning-emphasis me-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Experimental Feature!">
-                    <i class="fa-solid fa-flask"></i>
-                </span>
-                Prevent Tabs from Detecting Focus
-                <span data-bs-toggle="tooltip" data-bs-title="This treats all tabs as if they are focused adn in view.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+            <label class="form-check-label" for="tabFocus">Prevent Tabs from Detecting Focus</label>
+            <i class="fa-solid fa-flask text-warning-emphasis ms-1" data-bs-toggle="tooltip" data-bs-title="Experimental Feature!"></i>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="This treats all tabs as if they are focused adn in view."></i>
         </div>
 
         <hr>
 
-        <div class="form-check form-switch">
-            <input class="form-check-input" id="contextMenu" type="checkbox" role="switch" data-related="ctxMenu">
-            <label class="form-check-label" for="contextMenu" aria-describedby="contextMenuHelp">
-                Enable Right Click Menu
-                <span data-bs-toggle="tooltip" data-bs-title="Show Context Menu on Right Click.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-            </label>
+        <div class="form-check form-switch" data-mobile-add="d-none">
+            <input class="form-check-input" type="checkbox" role="switch" id="ctx-enable" data-related="ctxMenuItems">
+            <label class="form-check-label me-1" for="ctx-enable">Enable Right Click Menu</label>
+            <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-title="Show Context Menu on Right Click."></i>
         </div>
-        <div id="ctxMenu" class="ms-5" style="display: none;">
+        <div id="ctxMenuItems" class="ms-4" style="display: none;" data-mobile-add="d-none">
             <div class="form-check form-switch">
-                <input class="form-check-input" id="ctxCopy" type="checkbox" role="switch">
-                <label class="form-check-label" for="ctxCopy" aria-describedby="ctxCopyHelp">
-                    Show Copy Link Text on Links
-                    <span data-bs-toggle="tooltip" data-bs-title="Show Copy Link Text on Links.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-                </label>
+                <input class="form-check-input" id="ctx-copy" type="checkbox" role="switch">
+                <label class="form-check-label" for="ctx-copy">Show Copy Link Text on Links</label>
+                <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show Copy Link Text on Links."></i>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" id="ctxPassword" type="checkbox" role="switch">
-                <label class="form-check-label" for="ctxPassword" aria-describedby="ctxPasswordHelp">
-                    Show Hide/Show Password on Inputs
-                    <span data-bs-toggle="tooltip" data-bs-title="Show Hide/Show Password on Inputs.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-                </label>
+                <input class="form-check-input" id="ctx-password" type="checkbox" role="switch">
+                <label class="form-check-label" for="ctx-password">Show Hide/Show Password on Inputs</label>
+                <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show Hide/Show Password on Inputs."></i>
             </div>
             <div class="form-check form-switch">
-                <input class="form-check-input" id="ctxOptions" type="checkbox" role="switch">
-                <label class="form-check-label" for="ctxOptions" aria-describedby="ctxOptionsHelp">
-                    Show Options on Everything
-                    <span data-bs-toggle="tooltip" data-bs-title="Show Options on Everything.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
-                </label>
+                <input class="form-check-input" id="ctx-options" type="checkbox" role="switch">
+                <label class="form-check-label" for="ctx-options">Show Options on Everything</label>
+                <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show Options on Everything."></i>
             </div>
         </div>
 
@@ -127,12 +92,10 @@
 
         <div class="form-check form-switch">
             <input class="form-check-input" id="showUpdate" type="checkbox" role="switch">
-            <label class="form-check-label" for="showUpdate" aria-describedby="showUpdateHelp">
+            <label class="form-check-label" for="showUpdate">
                 Show Release Notes on Update
-                <span data-bs-toggle="tooltip" data-bs-title="Show Release Notes on Version Update.">
-                    <i class="fa-solid fa-circle-info ms-1"></i>
-                </span>
             </label>
+            <i class="fa-solid fa-circle-info ms-1" data-bs-toggle="tooltip" data-bs-title="Show Release Notes on Version Update."></i>
         </div>
     </form>
     <div class="d-none my-3 grant-perms">
