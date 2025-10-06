@@ -8,6 +8,7 @@ import {
     openExtPanel,
     showHidePassword,
     githubURL,
+    purgeImageCache,
 } from './export.js'
 
 chrome.runtime.onStartup.addListener(onStartup)
@@ -51,6 +52,7 @@ async function onInstalled(details) {
             enable: true,
             copy: true,
             password: true,
+            purge: true,
             options: true,
         },
         showUpdate: false,
@@ -98,6 +100,9 @@ async function onClicked(ctx, tab) {
     } else if (ctx.menuItemId === 'copyText') {
         console.debug('injectFunction: copy')
         await injectFunction(copyActiveElementText, [ctx])
+    } else if (ctx.menuItemId === 'purgeImage') {
+        console.debug('PURGE IMAGE CACHE:', ctx.srcUrl)
+        await purgeImageCache(ctx.srcUrl)
     } else if (ctx.menuItemId === 'showPassword') {
         console.debug('showPassword')
         await injectFunction(showHidePassword)
@@ -177,6 +182,10 @@ function createContextMenus(ctx) {
         addContext([['link'], 'copyText', 'Copy Link Text'])
         collected.push('link')
     }
+    if (ctx.purge) {
+        addContext([['image'], 'purgeImage', 'Purge Image Cache'])
+        collected.push('link')
+    }
     if (ctx.options) {
         if (ctx.password || ctx.copy) {
             console.debug('collected:', collected)
@@ -239,17 +248,11 @@ async function setDefaultOptions(defaultOptions) {
             console.log(`Set ${key}:`, value)
         } else if (typeof defaultOptions[key] === 'object') {
             console.debug(`%cProcessing Object: ${key}`, 'color: Magenta')
-            for (const [subKey, subValue] of Object.entries(
-                defaultOptions[key]
-            )) {
+            for (const [subKey, subValue] of Object.entries(defaultOptions[key])) {
                 if (options[key][subKey] === undefined) {
                     changed = true
                     options[key][subKey] = subValue
-                    console.log(
-                        `%cSet: ${key}.${subKey}:`,
-                        'color: Lime',
-                        subValue
-                    )
+                    console.log(`%cSet: ${key}.${subKey}:`, 'color: Lime', subValue)
                 }
             }
         }

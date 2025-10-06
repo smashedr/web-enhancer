@@ -289,11 +289,7 @@ export async function onRemoved(permissions) {
  * @param {Number} [height]
  * @return {Promise<chrome.windows.Window>}
  */
-export async function openExtPanel(
-    url = '/html/panel.html',
-    width = 1280,
-    height = 720
-) {
+export async function openExtPanel(url = '/html/panel.html', width = 1280, height = 720) {
     console.debug(`openExtPanel: ${url}`, width, height)
     const windows = await chrome.windows.getAll({ populate: true })
     for (const window of windows) {
@@ -385,4 +381,10 @@ export function showHidePassword() {
     } else {
         console.info('activeElement Not Found or Not INPUT.')
     }
+}
+
+export async function purgeImageCache(url) {
+    console.log('purgeImageCache:', url)
+    const response = await fetch(url, { method: 'PURGE' })
+    console.log('response:', response)
 }
