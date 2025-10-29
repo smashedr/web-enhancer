@@ -302,6 +302,51 @@ export async function openExtPanel(url = '/html/panel.html', width = 1280, heigh
     return chrome.windows.create({ type: 'panel', url, width, height })
 }
 
+// /**
+//  * Open Side Panel Callback
+//  * @function openSidePanel
+//  * @param {Event} [event]
+//  */
+// export async function openSidePanel(event) {
+//     console.debug('openSidePanel:', event)
+//     if (chrome.sidePanel) {
+//         chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+//             chrome.sidePanel.open({ windowId: tab.windowId })
+//         })
+//     } else if (chrome.sidebarAction) {
+//         // noinspection JSUnresolvedReference
+//         await chrome.sidebarAction.open()
+//     } else {
+//         console.log('Side Panel Not Supported')
+//         if (event) {
+//             showToast('Side Panel Not Supported', 'danger')
+//             return
+//         }
+//     }
+//     if (event) {
+//         window.close()
+//     }
+//     // if (typeof window !== 'undefined') {
+//     //     window.close()
+//     // }
+// }
+//
+// /**
+//  * Open Popup Click Callback
+//  * @function openPopup
+//  * @param {Event} [event]
+//  */
+// export async function openPopup(event) {
+//     console.debug('openPopup:', event)
+//     event?.preventDefault()
+//     // Note: This fails if popup is already open (ex. double clicks)
+//     try {
+//         await chrome.action.openPopup()
+//     } catch (e) {
+//         console.debug(e)
+//     }
+// }
+
 /**
  * Show Bootstrap Toast
  * @function showToast

@@ -18,6 +18,10 @@ let options = {}
     const data = await chrome.storage.sync.get(['options'])
     options = data.options
     // console.debug('options:', options)
+    if (options.svgBg && document.contentType === 'image/svg+xml') {
+        const svg = document.querySelector('svg')
+        if (svg?.style) svg.style.backgroundColor = 'black'
+    }
     if (options.autoFocus) {
         autoFocus()
     }
