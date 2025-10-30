@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../dist/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../dist/fontawesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/sidepanel.css">
     <script type="text/javascript" src="../js/theme.js"></script>
 </head>
 <body class="d-flex flex-column h-100">
@@ -50,14 +51,22 @@
 
 <hr class="my-0">
 
-<main class="flex-grow-1 p-3">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h1>Web Enhancer</h1>
-                <p>Tools will go here...</p>
-            </div>
-        </div>
+<main class="flex-grow-1 p-1">
+    <div class="container-fluid p-0">
+        <form id="input-form">
+        <select id="input-select" class="form-select mb-2" aria-label="Input Select">
+            <option value="encode" selected>Encode</option>
+            <option value="decode">Decode</option>
+        </select>
+        </form>
+
+        <input id="select-input" class="form-control form-control-sm" type="text" placeholder="Encode" aria-label=".form-control-sm example">
+
+        <!--<details>-->
+        <!--    <summary>Details</summary>-->
+        <!--    <input class="form-control form-control-sm" type="text" placeholder="Encode" aria-label=".form-control-sm example">-->
+        <!--</details>-->
+
         <!--<div class="d-grid g-2 gap-2">-->
         <!--    <kbd id="hostname" class="text-center text-ellipsis d-inline-block w-100">No URL for Tab</kbd>-->
         <!--    <a class="btn btn-primary d-flex align-items-center hvr-grow-sm open-popup text-nowrap text-ellipsis overflow-hidden" data-mobile-add="d-none">-->
@@ -76,11 +85,13 @@
     </div>
 </main>
 
-<footer class="flex-shrink-0 p-3">
+<footer class="flex-shrink-0 p-1">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-outline-warning hvr-grow-sm w-100 close-panel text-nowrap text-ellipsis overflow-hidden" role="button">
+                <a class="btn btn-outline-success hvr-grow-sm w-100 mb-1 text-nowrap text-ellipsis overflow-hidden" data-click="reload" role="button">
+                    Reload <i class="fa-solid fa-rotate ms-1"></i></a>
+                <a class="btn btn-outline-warning hvr-grow-sm w-100 text-nowrap text-ellipsis overflow-hidden" data-click="close" role="button">
                     Close Side Panel <i class="fa-regular fa-circle-xmark ms-1"></i></a>
             </div>
         </div>

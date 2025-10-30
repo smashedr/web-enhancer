@@ -9,6 +9,7 @@ import {
     showHidePassword,
     githubURL,
     purgeImageCache,
+    openSidePanel,
 } from './export.js'
 
 chrome.runtime.onStartup.addListener(onStartup)
@@ -54,6 +55,7 @@ async function onInstalled(details) {
             copy: true,
             password: true,
             purge: true,
+            sidePanel: true,
             options: true,
         },
         showUpdate: false,
@@ -98,8 +100,8 @@ async function onClicked(ctx, tab) {
         await activateOrOpen(url)
     } else if (ctx.menuItemId === 'showPanel') {
         await openExtPanel()
-        // } else if (ctx.menuItemId === 'openSidePanel') {
-        //     await openSidePanel() // TODO: add menu item
+    } else if (ctx.menuItemId === 'openSidePanel') {
+        await openSidePanel()
     } else if (ctx.menuItemId === 'copyText') {
         console.debug('injectFunction: copy')
         await injectFunction(copyActiveElementText, [ctx])
@@ -126,8 +128,8 @@ async function onCommand(command) {
         await activateOrOpen(url)
     } else if (command === 'showPanel') {
         await openExtPanel()
-        // } else if (command === 'openSidePanel') {
-        //     await openSidePanel() // TODO: add command
+    } else if (command === 'openSidePanel') {
+        await openSidePanel()
     }
 }
 
@@ -189,6 +191,10 @@ function createContextMenus(ctx) {
     }
     if (ctx.purge) {
         addContext([['image'], 'purgeImage', 'Purge Image Cache'])
+        collected.push('link')
+    }
+    if (ctx.sidePanel) {
+        addContext([['all'], 'openSidePanel', 'Side Panel'])
         collected.push('link')
     }
     if (ctx.options) {
