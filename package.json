@@ -12,7 +12,8 @@
     "build:chrome": "npm run manifest:chrome && npx web-ext build -n {name}-chrome-{version}.zip -o -s src",
     "build:firefox": "npm run manifest:firefox && npx web-ext build -n {name}-firefox-{version}.zip -o -s src",
     "build": "npm run build:chrome && npm run build:firefox",
-    "prettier": "npx prettier --check ."
+    "prettier:check": "npx prettier --check .",
+    "prettier:write": "npx prettier --write ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
@@ -20,12 +21,12 @@
     "jquery": "^3.7.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
-    "@types/chrome": "^0.1.18",
-    "eslint": "^9.36.0",
+    "@eslint/js": "^9.38.0",
+    "@types/chrome": "^0.1.27",
+    "eslint": "^9.38.0",
     "gulp": "^5.0.1",
     "json-merger": "^3.0.0",
     "prettier": "^3.6.2",
-    "web-ext": "^8.10.0"
+    "web-ext": "^9.1.0"
   }
 }

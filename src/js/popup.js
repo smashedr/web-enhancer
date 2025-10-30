@@ -5,7 +5,6 @@ import {
     linkClick,
     grantPerms,
     saveOptions,
-    showToast,
     updateOptions,
     updateManifest,
 } from './export.js'
@@ -46,15 +45,15 @@ async function initPopup() {
     })
 
     // This blok of code should be updated...
-    const host = document.getElementById('host-div')
+    const hostname = document.getElementById('hostname')
     const [tab, url] = await checkTab()
     console.debug('tab, url:', tab, url)
     if (!tab || !url) {
-        host.classList.add('border-danger-subtle')
+        hostname.classList.add('border-danger-subtle')
         return
     }
-    host.querySelector('kbd').textContent = url.hostname
-    host.classList.add('border-success')
+    hostname.querySelector('kbd').textContent = url.hostname
+    hostname.classList.add('border-success')
 
     // const [tab] = await chrome.tabs.query({ currentWindow: true, active: true })
     // console.debug('tab:', tab)

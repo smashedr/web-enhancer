@@ -1,8 +1,13 @@
+[![GitHub Repo Stars](https://img.shields.io/github/stars/smashedr/web-enhancer?style=flat&logo=github&logoColor=white)](https://github.com/smashedr/web-enhancer/stargazers)
 [![GitHub Release Version](https://img.shields.io/github/v/release/smashedr/web-enhancer?logo=github)](https://github.com/smashedr/web-enhancer/releases/latest)
+[![Build](https://img.shields.io/github/actions/workflow/status/smashedr/web-enhancer/build.yaml?logo=github&logoColor=white&label=build)](https://github.com/smashedr/web-enhancer/actions/workflows/build.yaml)
+[![Lint](https://img.shields.io/github/actions/workflow/status/smashedr/web-enhancer/lint.yaml?logo=github&logoColor=white&label=lint)](https://github.com/smashedr/web-enhancer/actions/workflows/lint.yaml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/smashedr/web-enhancer?logo=github&logoColor=white&label=updated)](https://github.com/smashedr/web-enhancer/graphs/commit-activity)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/smashedr/web-enhancer?logo=htmx&logoColor=white)](https://github.com/smashedr/web-enhancer)
-[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white)](https://cssnr.github.io/)
-[![Discord](https://img.shields.io/discord/536290056571453450?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/6pzXJE5)
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/smashedr/web-enhancer?logo=bookstack&logoColor=white&label=repo%20size)](https://github.com/smashedr/web-enhancer)
+[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white&label=org%20stars)](https://cssnr.github.io/)
+[![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-72a5f2?logo=kofi&label=support)](https://ko-fi.com/cssnr)
 
 # Web Enhancer
 
@@ -139,21 +144,24 @@ Build: [https://wiki.mozilla.org/Add-ons/Extension_Signing#Unbranded_Builds](htt
 
 # Contributing
 
-Currently, the best way to contribute to this project is to give a 5-star rating on
-[Google](https://chromewebstore.google.com/detail/smwc-web-extension/foalfafgmnglcgpgkhhmcfhjgmdcjide) or
-[Mozilla](https://addons.mozilla.org/addon/smwc-web-extension) and to star this project on GitHub.
+Please consider making a donation to support the development of this project
+and [additional](https://cssnr.com/) open source projects.
 
-Other Web Extensions I have created and published:
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/cssnr)
 
-- [Link Extractor](https://github.com/cssnr/link-extractor)
-- [Open Links in New Tab](https://github.com/cssnr/open-links-in-new-tab)
-- [Auto Auth](https://github.com/cssnr/auto-auth)
-- [Cache Cleaner](https://github.com/cssnr/cache-cleaner)
-- [HLS Video Downloader](https://github.com/cssnr/hls-video-downloader)
-- [SMWC Web Extension](https://github.com/cssnr/smwc-web-extension)
-- [PlayDrift Extension](https://github.com/cssnr/playdrift-extension)
-- [ASN Plus](https://github.com/cssnr/asn-plus)
-- [Aviation Tools](https://github.com/cssnr/aviation-tools)
-- [Text Formatter](https://github.com/cssnr/text-formatter)
+Additionally, you can star or provide a 5-star rating on other Web Extensions I have created and published:
+
+- [Link Extractor](https://github.com/cssnr/link-extractor?tab=readme-ov-file#readme)
+- [Open Links in New Tab](https://github.com/cssnr/open-links-in-new-tab?tab=readme-ov-file#readme)
+- [Auto Auth](https://github.com/cssnr/auto-auth?tab=readme-ov-file#readme)
+- [Cache Cleaner](https://github.com/cssnr/cache-cleaner?tab=readme-ov-file#readme)
+- [HLS Video Downloader](https://github.com/cssnr/hls-video-downloader?tab=readme-ov-file#readme)
+- [Zipline Extension](https://github.com/cssnr/zipline-extension?tab=readme-ov-file#readme)
+- [Obtainium Extension](https://github.com/cssnr/obtainium-extension?tab=readme-ov-file#readme)
+- [SMWC Web Extension](https://github.com/cssnr/smwc-web-extension?tab=readme-ov-file#readme)
+- [PlayDrift Extension](https://github.com/cssnr/playdrift-extension?tab=readme-ov-file#readme)
+- [ASN Plus](https://github.com/cssnr/asn-plus?tab=readme-ov-file#readme)
+- [Aviation Tools](https://github.com/cssnr/aviation-tools?tab=readme-ov-file#readme)
+- [Text Formatter](https://github.com/cssnr/text-formatter?tab=readme-ov-file#readme)
 
 For a full list of current projects visit: [https://cssnr.github.io/](https://cssnr.github.io/)
