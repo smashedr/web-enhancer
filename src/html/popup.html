@@ -14,7 +14,7 @@
 <body>
 
 <div class="container-fluid p-2">
-    <div class="d-flex flex-row align-items-center">
+    <div class="d-flex flex-row align-items-center text-nowrap">
         <div class="dropdown">
             <a class="link-body-emphasis text-decoration-none" id="bs-theme-dropdown" title="Theme Switcher" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">
                 <i id="theme-icon" class="fa-solid fa-circle-half-stroke fa-lg" style="min-width: 20px;"></i> <i class="fa-solid fa-caret-down fa-xs mx-1"></i></a>
@@ -26,7 +26,7 @@
                 <li><button class="dropdown-item" data-bs-theme-value="auto" aria-pressed="false">
                     <i class="fa-solid fa-circle-half-stroke" style="min-width: 16px;"></i> <span class="ms-3">Auto</span></button></li>
             </ul>
-        </div>
+        </div> <!-- dropdown -->
 
         <div class="flex-fill text-center">
             <a class="link-body-emphasis text-decoration-none fs-4" title="Home Page" href="homepage_url">
@@ -34,9 +34,13 @@
                 Web Enhancer</a>
             <a class="link-body-emphasis text-decoration-none small" title="Release Notes" href="version_url">
                 v<span class="version"></span></a>
-        </div>
+        </div> <!-- text-center -->
 
-        <div class="">
+        <div class="" data-mobile-add="d-none">
+            <a class="btn btn-sm btn-outline-info" role="button" href="../html/sidepanel.html" title="Side Panel">
+                <i class="fa-solid fa-table-columns"></i></a>
+        </div>
+        <div class="ms-2">
             <a class="btn btn-sm btn-outline-info" role="button" href="../html/options.html" title="Options">
                 <i class="fa-solid fa-gears"></i></a>
         </div>

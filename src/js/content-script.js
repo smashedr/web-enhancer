@@ -11,7 +11,7 @@ if (!chrome.storage.onChanged.hasListener(onChanged)) {
     chrome.storage.onChanged.addListener(onChanged)
 }
 
-const contentScript = true
+const contentScript = true // eslint-disable-line no-unused-vars
 let options = {}
 
 ;(async () => {

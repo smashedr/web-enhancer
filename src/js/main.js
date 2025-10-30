@@ -14,7 +14,7 @@ if (typeof ClipboardJS !== 'undefined') {
             showToast('Copied to Clipboard')
         }
     })
-    clipboard.on('error', function (event) {
+    clipboard.on('error', function () {
         // console.debug('clipboard.error:', event)
         showToast('Clipboard Copy Failed', 'warning')
     })
@@ -34,10 +34,7 @@ if (backToTop) {
  * @function onScroll
  */
 function onScroll() {
-    if (
-        document.body.scrollTop > 20 ||
-        document.documentElement.scrollTop > 20
-    ) {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         backToTop.style.display = 'block'
     } else {
         backToTop.style.display = 'none'

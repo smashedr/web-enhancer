@@ -124,19 +124,25 @@ function hideShowElement(selector, show, speed = 'fast') {
  */
 export async function linkClick(event, close = false) {
     console.debug('linkClick:', close, event)
-    event.preventDefault()
-    const href = event.currentTarget.getAttribute('href').replace(/^\.+/g, '')
+    const target = event.currentTarget
+    const href = target.getAttribute('href').replace(/^\.+/g, '')
     console.debug('href:', href)
     let url
     if (href.startsWith('#')) {
         console.debug('return on anchor link')
         return
-    } else if (href.endsWith('html/options.html')) {
-        chrome.runtime.openOptionsPage()
+    }
+    event.preventDefault()
+    if (href.endsWith('html/options.html')) {
+        await chrome.runtime.openOptionsPage()
         if (close) window.close()
         return
     } else if (href.endsWith('html/panel.html')) {
         await openExtPanel()
+        if (close) window.close()
+        return
+    } else if (href.endsWith('html/sidepanel.html')) {
+        await openSidePanel()
         if (close) window.close()
         return
     } else if (href.startsWith('http')) {
@@ -302,50 +308,50 @@ export async function openExtPanel(url = '/html/panel.html', width = 1280, heigh
     return chrome.windows.create({ type: 'panel', url, width, height })
 }
 
-// /**
-//  * Open Side Panel Callback
-//  * @function openSidePanel
-//  * @param {Event} [event]
-//  */
-// export async function openSidePanel(event) {
-//     console.debug('openSidePanel:', event)
-//     if (chrome.sidePanel) {
-//         chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-//             chrome.sidePanel.open({ windowId: tab.windowId })
-//         })
-//     } else if (chrome.sidebarAction) {
-//         // noinspection JSUnresolvedReference
-//         await chrome.sidebarAction.open()
-//     } else {
-//         console.log('Side Panel Not Supported')
-//         if (event) {
-//             showToast('Side Panel Not Supported', 'danger')
-//             return
-//         }
-//     }
-//     if (event) {
-//         window.close()
-//     }
-//     // if (typeof window !== 'undefined') {
-//     //     window.close()
-//     // }
-// }
-//
-// /**
-//  * Open Popup Click Callback
-//  * @function openPopup
-//  * @param {Event} [event]
-//  */
-// export async function openPopup(event) {
-//     console.debug('openPopup:', event)
-//     event?.preventDefault()
-//     // Note: This fails if popup is already open (ex. double clicks)
-//     try {
-//         await chrome.action.openPopup()
-//     } catch (e) {
-//         console.debug(e)
-//     }
-// }
+/**
+ * Open Side Panel Callback
+ * @function openSidePanel
+ * @param {Event} [event]
+ */
+export async function openSidePanel(event) {
+    console.debug('openSidePanel:', event)
+    if (chrome.sidePanel) {
+        chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+            chrome.sidePanel.open({ windowId: tab.windowId })
+        })
+    } else if (chrome.sidebarAction) {
+        // noinspection JSUnresolvedReference
+        await chrome.sidebarAction.open()
+    } else {
+        console.log('Side Panel Not Supported')
+        if (event) {
+            showToast('Side Panel Not Supported', 'danger')
+            return
+        }
+    }
+    if (event) {
+        window.close()
+    }
+    // if (typeof window !== 'undefined') {
+    //     window.close()
+    // }
+}
+
+/**
+ * Open Popup Click Callback
+ * @function openPopup
+ * @param {Event} [event]
+ */
+export async function openPopup(event) {
+    console.debug('openPopup:', event)
+    event?.preventDefault()
+    // Note: This fails if popup is already open (ex. double clicks)
+    try {
+        await chrome.action.openPopup()
+    } catch (e) {
+        console.debug(e)
+    }
+}
 
 /**
  * Show Bootstrap Toast

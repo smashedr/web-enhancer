@@ -2,6 +2,7 @@
 
 import {
     checkPerms,
+    grantPerms,
     linkClick,
     onAdded,
     onRemoved,

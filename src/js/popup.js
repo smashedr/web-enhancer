@@ -5,7 +5,6 @@ import {
     linkClick,
     grantPerms,
     saveOptions,
-    showToast,
     updateOptions,
     updateManifest,
 } from './export.js'
